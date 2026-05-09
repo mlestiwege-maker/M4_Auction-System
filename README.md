@@ -43,6 +43,28 @@ Or directly to the platform:
 http://localhost:8000/auction_system/index.php
 ```
 
+### ⚡ One-Command Launch (Recommended)
+
+From the project folder:
+
+```bash
+cd /home/mufutumari/Desktop/M4/auction_system
+chmod +x run.sh stop.sh
+./run.sh
+```
+
+If you also want demo/sample records loaded:
+
+```bash
+./run.sh --seed
+```
+
+To stop the PHP server from another terminal:
+
+```bash
+./stop.sh
+```
+
 ---
 
 ## 📁 Project Structure
