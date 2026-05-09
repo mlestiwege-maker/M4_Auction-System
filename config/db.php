@@ -1,5 +1,13 @@
 <?php
-$conn = new mysqli("localhost", "auctionhub", "auction_password", "auction_db");
+$db_user = "auctionhub";
+$db_pass = "auction_password";
+$db_name = "auction_db";
+
+// Try TCP first to avoid Linux socket path issues, then fallback to localhost socket.
+$conn = @new mysqli("127.0.0.1", $db_user, $db_pass, $db_name);
+if ($conn->connect_error) {
+    $conn = @new mysqli("localhost", $db_user, $db_pass, $db_name);
+}
 
 // If connection fails, redirect to setup
 if ($conn->connect_error) {
@@ -11,7 +19,10 @@ if ($conn->connect_error) {
         strpos($_SERVER['REQUEST_URI'], 'setup.php') === false) {
         
         // Check if database exists but connection fails
-        $check_conn = @new mysqli("localhost", "auctionhub", "auction_password");
+        $check_conn = @new mysqli("127.0.0.1", $db_user, $db_pass);
+        if ($check_conn->connect_error) {
+            $check_conn = @new mysqli("localhost", $db_user, $db_pass);
+        }
         if (!$check_conn->connect_error) {
             // Create database if it doesn't exist
             $check_conn->query("CREATE DATABASE IF NOT EXISTS auction_db");

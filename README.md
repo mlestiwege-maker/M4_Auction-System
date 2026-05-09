@@ -49,7 +49,7 @@ From the project folder:
 
 ```bash
 cd /home/mufutumari/Desktop/M4/auction_system
-chmod +x run.sh stop.sh
+chmod +x run.sh stop.sh reset-db.sh
 ./run.sh
 ```
 
@@ -237,10 +237,12 @@ Great for testing all features without manual setup!
 | Issue | Solution |
 |-------|----------|
 | **"Connection failed"** | MySQL not running. Run: `sudo service mariadb start` |
+| **`ERROR 1698 (28000): Access denied for user 'root'@'localhost'`** | Use `./run.sh` (it auto-falls back to `sudo mysql` on socket-auth systems) |
 | **404 errors** | Make sure you're running from `/M4` directory: `php -S localhost:8000` from that path |
 | **Database not found** | Run `schema.sql`: `mysql -u root < schema.sql` |
 | **Images not uploading** | Create `uploads/` folder with write permissions |
 | **AJAX not working** | Clear browser cache, check JS console for errors |
+| **`GET /favicon.ico` 404 in terminal** | Harmless browser request; optional to ignore or add a favicon file |
 
 ---
 
