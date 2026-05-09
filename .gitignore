@@ -1,0 +1,33 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.vscode/
+.idea/
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# PHP dependency directories
+/vendor/
+
+# Logs / cache / temp
+*.log
+*.tmp
+*.cache
+/cache/
+/tmp/
+
+# Runtime user uploads (keep folder structure placeholders if needed)
+assets/uploads/*
+!assets/uploads/.gitkeep
+!assets/uploads/.htaccess
+!assets/uploads/fallbacks/
+!assets/uploads/fallbacks/**
+
+# Build/test artifacts
+coverage/
+.phpunit.result.cache
