@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - AuctionHub Marketplace</title>
+    <style>
+        :root {
+            --primary: #667eea;
+            --primary-dark: #5568d3;
+            --secondary: #764ba2;
+            --bg: #f5f5f5;
+            --surface: #ffffff;
+            --surface-alt: #f9f9f9;
+            --text: #333;
+            --text-light: #555;
+            --border: #e2e8f0;
+        }
+
+        body[data-theme='dark'] {
+            --bg: #0f172a;
+            --surface: #111827;
+            --surface-alt: #1f2937;
+            --text: #e5e7eb;
+            --text-light: #9ca3af;
+            --border: #334155;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--bg);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 1.5rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        nav h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 2rem;
+            transition: opacity 0.3s;
+        }
+
+        nav a:hover {
+            opacity: 0.8;
+        }
+
+        .theme-toggle {
+            margin-left: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            background: rgba(255, 255, 255, 0.12);
+            color: #fff;
+            border-radius: 999px;
+            padding: 0.45rem 0.85rem;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.22);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            background: var(--surface);
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h3 {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-light);
+            line-height: 1.8;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .feature-box {
+            background: var(--surface-alt);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .feature-box strong {
+            color: var(--primary);
+        }
+
+        .tech-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: var(--primary);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        ul {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            color: var(--text-light);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 2rem;
+            background-color: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            margin-right: 1rem;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn.secondary {
+            background-color: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn.secondary:hover {
+            background-color: var(--surface-alt);
+        }
+
+        footer {
+            background: #333;
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+            margin: 0 1rem;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        a {
+            color: var(--primary);
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav a {
+                margin-left: 0;
+                font-size: 0.9rem;
+            }
+
+            .theme-toggle {
+                margin-left: 0;
+                margin-top: 0.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <h1>🔨 AuctionHub</h1>
+            <div>
+                <a href="index.html">Home</a>
+                <a href="features.html">Features</a>
+                <a href="help.html">Help</a>
+                <a href="about.html">About</a>
+                 <a href="/auction_system/index.php">Platform</a>
+                <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle light and dark theme">🌙 Dark</button>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h2>About AuctionHub</h2>
+        <p>A modern, feature-rich marketplace platform built for real-time auctions</p>
+    </section>
+
+    <div class="container">
+        <h3>Our Mission</h3>
+        <p>AuctionHub is dedicated to creating a transparent, fair, and engaging online marketplace where buyers and sellers can connect, bid confidently, and complete transactions with ease. We combine cutting-edge technology with user-friendly design to deliver an exceptional auction experience.</p>
+
+        <h3>What We Offer</h3>
+        <p>A comprehensive auction platform featuring:</p>
+        <div class="feature-grid">
+            <div class="feature-box">
+                <strong>⚡ Real-Time Bidding</strong>
+                <p>Live bid updates, countdown timers, and instant notifications keep you engaged in every auction.</p>
+            </div>
+            <div class="feature-box">
+                <strong>🤖 Smart Auto-Bidding</strong>
+                <p>Set your maximum bid and let our system compete for you automatically throughout the auction.</p>
+            </div>
+            <div class="feature-box">
+                <strong>⭐ Trust & Security</strong>
+                <p>Seller ratings, verified reviews, and secure transactions build confidence in our marketplace.</p>
+            </div>
+            <div class="feature-box">
+                <strong>📱 Mobile Responsive</strong>
+                <p>Bid from anywhere with our fully responsive design that works on all devices.</p>
+            </div>
+            <div class="feature-box">
+                <strong>🔔 Smart Notifications</strong>
+                <p>Stay updated with alerts for bids, wins, and items you're watching.</p>
+            </div>
+            <div class="feature-box">
+                <strong>📊 Seller Dashboard</strong>
+                <p>Manage your listings, track earnings, and monitor bid activity all in one place.</p>
+            </div>
+        </div>
+
+        <h3>Built With Modern Technology</h3>
+        <div class="tech-grid">
+            <span class="badge">PHP 7+</span>
+            <span class="badge">MySQL/MariaDB</span>
+            <span class="badge">JavaScript (AJAX)</span>
+            <span class="badge">CSS3 Responsive</span>
+            <span class="badge">Real-Time Updates</span>
+            <span class="badge">Secure Authentication</span>
+        </div>
+
+        <h3>Key Features</h3>
+        <ul>
+            <li><strong>User Management:</strong> Secure registration, login, and profile management</li>
+            <li><strong>Auction Listings:</strong> Create and manage multiple auctions with images and detailed descriptions</li>
+            <li><strong>Bidding System:</strong> Place bids instantly or use auto-bidding for convenience</li>
+            <li><strong>Watchlist:</strong> Save favorite items and track their progress</li>
+            <li><strong>Notifications:</strong> Get alerts for bids, outbids, wins, and auction updates</li>
+            <li><strong>Reviews & Ratings:</strong> Build seller reputation through transparent feedback</li>
+            <li><strong>Seller Dashboard:</strong> Monitor listings, earnings, and bid activity</li>
+            <li><strong>Categories:</strong> Browse by Electronics, Fashion, Home & Garden, Collectibles, Vehicles, and more</li>
+            <li><strong>Advanced Search:</strong> Filter by category, price range, auction status, and more</li>
+            <li><strong>Winner Badges:</strong> See at a glance which auctions you've won</li>
+        </ul>
+
+        <h3>Why Choose AuctionHub?</h3>
+        <p>We combine the best of traditional auction houses with modern technology to create a platform that's:</p>
+        <ul>
+            <li><strong>Transparent:</strong> All prices, bids, and seller information are publicly displayed</li>
+            <li><strong>Fair:</strong> Our auction system prevents manipulation and ensures fair competition</li>
+            <li><strong>Secure:</strong> Your data is protected with encryption and secure authentication</li>
+            <li><strong>User-Friendly:</strong> Intuitive interface makes bidding and selling simple</li>
+            <li><strong>Innovative:</strong> Features like auto-bidding and smart notifications enhance your experience</li>
+        </ul>
+
+        <h3>Get Started Today</h3>
+        <p>Join thousands of buyers and sellers on AuctionHub. Whether you're looking to find great deals or sell items quickly, we have everything you need.</p>
+        <div style="margin-top: 2rem; text-align: center;">
+             <a href="/auction_system/auth/register.php" class="btn">Create Account</a>
+             <a href="/auction_system/index.php" class="btn secondary">Start Bidding</a>
+        </div>
+
+        <h3 style="margin-top: 3rem;">Need Help?</h3>
+        <p>Visit our <a href="help.html">Help Center</a> for FAQs and support, or <a href="contact.html">Contact Us</a> for any questions.</p>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 AuctionHub - All rights reserved |
+            <a href="index.html">Home</a>
+            <a href="privacy.html">Privacy</a>
+            <a href="terms.html">Terms</a>
+            <a href="contact.html">Contact</a>
+        </p>
+    </footer>
+
+        <script>
+                (function() {
+                    const storageKey = 'auctionhub_theme';
+                    const toggleButton = document.getElementById('themeToggle');
+
+                    const applyTheme = function(theme) {
+                        document.body.setAttribute('data-theme', theme);
+                        if (toggleButton) {
+                            toggleButton.textContent = theme === 'dark' ? '☀️ Light' : '🌙 Dark';
+                        }
+                    };
+
+                    const savedTheme = localStorage.getItem(storageKey);
+                    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                    applyTheme(savedTheme || (prefersDark ? 'dark' : 'light'));
+
+                    if (toggleButton) {
+                        toggleButton.addEventListener('click', function() {
+                            const currentTheme = document.body.getAttribute('data-theme') || 'light';
+                            const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                            localStorage.setItem(storageKey, nextTheme);
+                            applyTheme(nextTheme);
+                        });
+                    }
+                })();
+        </script>
+</body>
+</html>

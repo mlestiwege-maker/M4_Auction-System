@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Features - AuctionHub Marketplace</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        :root {
+            --primary: #667eea;
+            --primary-dark: #5568d3;
+            --secondary: #764ba2;
+            --bg: #f5f5f5;
+            --surface: #ffffff;
+            --text: #333;
+            --text-light: #666;
+            --border: #e2e8f0;
+        }
+
+        body[data-theme='dark'] {
+            --bg: #0f172a;
+            --surface: #111827;
+            --text: #e5e7eb;
+            --text-light: #9ca3af;
+            --border: #334155;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--bg);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 1.5rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        nav h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 2rem;
+            transition: opacity 0.3s;
+        }
+
+        nav a:hover {
+            opacity: 0.8;
+        }
+
+        .theme-toggle {
+            margin-left: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            background: rgba(255, 255, 255, 0.12);
+            color: #fff;
+            border-radius: 999px;
+            padding: 0.45rem 0.85rem;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.22);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        section {
+            padding: 3rem 0;
+            background: var(--surface);
+            margin-bottom: 2rem;
+            border-radius: 8px;
+        }
+
+        section h3 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--primary);
+        }
+
+        .feature-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .feature-details.reverse {
+            direction: rtl;
+        }
+
+        .feature-details p {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+            line-height: 1.8;
+        }
+
+        .feature-icon {
+            font-size: 4rem;
+            text-align: center;
+        }
+
+        .feature-list {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .feature-list li {
+            padding: 0.5rem 0 0.5rem 2rem;
+            position: relative;
+            color: var(--text-light);
+        }
+
+        .feature-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 2rem;
+            background-color: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            margin-top: 1rem;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        footer {
+            background: #333;
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+            margin: 0 1rem;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .feature-details, .feature-details.reverse {
+                grid-template-columns: 1fr;
+                direction: ltr;
+            }
+
+            nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav a {
+                margin-left: 0;
+            }
+
+            .theme-toggle {
+                margin-left: 0;
+                margin-top: 0.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <h1>🔨 AuctionHub</h1>
+            <div>
+                <a href="index.html">Home</a>
+                <a href="features.html">Features</a>
+                <a href="help.html">Help</a>
+                <a href="about.html">About</a>
+                 <a href="/auction_system/index.php">Platform</a>
+                <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle light and dark theme">🌙 Dark</button>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h2>Powerful Features for Every Bidder</h2>
+        <p>Everything you need to bid smart, win big, and sell successfully</p>
+    </section>
+
+    <div class="container">
+        <section>
+            <h3>⚡ Real-Time Live Bidding</h3>
+            <div class="feature-details">
+                <div>
+                    <p>Experience the thrill of live auctions with instant bid updates. Our real-time bidding system ensures you never miss a moment and always know the latest bid status.</p>
+                    <ul class="feature-list">
+                        <li>Instant bid updates every 2 seconds</li>
+                        <li>Live countdown timer for auction endings</li>
+                        <li>Complete bid history transparency</li>
+                        <li>Automatic page refresh on new bids</li>
+                    </ul>
+                </div>
+                <div class="feature-icon">💰</div>
+            </div>
+        </section>
+
+        <section>
+            <h3>🤖 Auto-Bidding System</h3>
+            <div class="feature-details reverse">
+                <div>
+                    <p>Set your maximum bid price and let our intelligent system bid automatically on your behalf. Never lose an auction because you weren't online.</p>
+                    <ul class="feature-list">
+                        <li>Automatic bid increments</li>
+                        <li>Configurable maximum bid</li>
+                        <li>Multiple auto-bids per auction</li>
+                        <li>Win notification alerts</li>
+                    </ul>
+                </div>
+                <div class="feature-icon">🎯</div>
+            </div>
+        </section>
+
+        <section>
+            <h3>⭐ Seller Ratings & Reviews</h3>
+            <div class="feature-details">
+                <div>
+                    <p>Build trust in our marketplace through transparent reviews and ratings. Every buyer and seller can share feedback to help the community make informed decisions.</p>
+                    <ul class="feature-list">
+                        <li>5-star rating system</li>
+                        <li>Detailed review comments</li>
+                        <li>Seller reputation scores</li>
+                        <li>Review history for every seller</li>
+                    </ul>
+                </div>
+                <div class="feature-icon">⭐</div>
+            </div>
+        </section>
+
+        <section>
+            <h3>🔔 Smart Notifications</h3>
+            <div class="feature-details reverse">
+                <div>
+                    <p>Stay informed with intelligent notifications for bids, wins, and items of interest. Never miss important auction updates.</p>
+                    <ul class="feature-list">
+                        <li>Outbid alerts</li>
+                        <li>Auction won notifications</li>
+                        <li>New bid updates</li>
+                        <li>Auction ended reminders</li>
+                        <li>Notification center dashboard</li>
+                    </ul>
+                </div>
+                <div class="feature-icon">🔔</div>
+            </div>
+        </section>
+
+        <section>
+            <h3>📋 Smart Watchlist</h3>
+            <div class="feature-details">
+                <div>
+                    <p>Bookmark your favorite items and track their progress. Get notified when watched auctions end so you never miss an opportunity.</p>
+                    <ul class="feature-list">
+                        <li>Save unlimited items</li>
+                        <li>View watchlist as grid or list</li>
+                        <li>Quick remove options</li>
+                        <li>Track item changes</li>
+                    </ul>
+                </div>
+                <div class="feature-icon">📌</div>
+            </div>
+        </section>
+
+        <section>
+            <h3>🔍 Advanced Search & Filters</h3>
+            <div class="feature-details reverse">
+                <div>
+                    <p>Find exactly what you're looking for with powerful search and filtering capabilities. Filter by category, price range, auction status, and more.</p>
+                    <ul class="feature-list">
+                        <li>Full-text search</li>
+                        <li>Category filtering</li>
+                        <li>Price range sliders</li>
+                        <li>Sort by ending time or price</li>
+                        <li>Active/ended filters</li>
+                    </ul>
+                </div>
+                <div class="feature-icon">🔍</div>
+            </div>
+        </section>
+
+        <section>
+            <h3>📊 Seller Dashboard</h3>
+            <div class="feature-details">
+                <div>
+                    <p>Manage your auctions with ease. Track sales, monitor bids, and manage your shop from a centralized dashboard.</p>
+                    <ul class="feature-list">
+                        <li>View all your listings</li>
+                        <li>Edit active auctions</li>
+                        <li>Delete items</li>
+                        <li>Track earnings</li>
+                        <li>Monitor bid activity</li>
+                    </ul>
+                </div>
+                <div class="feature-icon">📈</div>
+            </div>
+        </section>
+
+        <section>
+            <h3>🏆 Winner Badges & Status</h3>
+            <div class="feature-details reverse">
+                <div>
+                    <p>Celebrate your wins with winner badges. See at a glance which auctions you've won and which ones are still active.</p>
+                    <ul class="feature-list">
+                        <li>Winner badges on auctions</li>
+                        <li>Status indicators (Active/Ended)</li>
+                        <li>Auction state tracking</li>
+                        <li>Quick win notifications</li>
+                    </ul>
+                </div>
+                <div class="feature-icon">🏆</div>
+            </div>
+        </section>
+
+        <section>
+            <h3>🎨 Multiple Categories</h3>
+            <div class="feature-details">
+                <div>
+                    <p>Browse and list items across diverse categories to find or sell exactly what you need.</p>
+                    <ul class="feature-list">
+                        <li>Electronics & Technology</li>
+                        <li>Fashion & Apparel</li>
+                        <li>Home & Garden</li>
+                        <li>Collectibles & Antiques</li>
+                        <li>Vehicles & Accessories</li>
+                        <li>And many more...</li>
+                    </ul>
+                </div>
+                <div class="feature-icon">🎯</div>
+            </div>
+        </section>
+
+        <section>
+            <h3>🔒 Secure & Safe</h3>
+            <div class="feature-details reverse">
+                <div>
+                    <p>Your security is our priority. All transactions and data are protected with industry-standard security measures.</p>
+                    <ul class="feature-list">
+                        <li>Secure user authentication</li>
+                        <li>Password encryption</li>
+                        <li>CSRF protection on forms</li>
+                        <li>Data protection protocols</li>
+                    </ul>
+                </div>
+                <div class="feature-icon">🔒</div>
+            </div>
+        </section>
+
+        <section style="text-align: center;">
+            <h3>Ready to Start?</h3>
+            <p>Join thousands of buyers and sellers on AuctionHub today!</p>
+             <a href="/auction_system/auth/register.php" class="btn">Create Account</a>
+             <a href="/auction_system/index.php" class="btn">Browse Auctions</a>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 AuctionHub - All rights reserved |
+            <a href="index.html">Home</a>
+            <a href="privacy.html">Privacy</a>
+            <a href="terms.html">Terms</a>
+            <a href="contact.html">Contact</a>
+        </p>
+    </footer>
+
+        <script>
+                (function() {
+                    const storageKey = 'auctionhub_theme';
+                    const toggleButton = document.getElementById('themeToggle');
+
+                    const applyTheme = function(theme) {
+                        document.body.setAttribute('data-theme', theme);
+                        if (toggleButton) {
+                            toggleButton.textContent = theme === 'dark' ? '☀️ Light' : '🌙 Dark';
+                        }
+                    };
+
+                    const savedTheme = localStorage.getItem(storageKey);
+                    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                    applyTheme(savedTheme || (prefersDark ? 'dark' : 'light'));
+
+                    if (toggleButton) {
+                        toggleButton.addEventListener('click', function() {
+                            const currentTheme = document.body.getAttribute('data-theme') || 'light';
+                            const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                            localStorage.setItem(storageKey, nextTheme);
+                            applyTheme(nextTheme);
+                        });
+                    }
+                })();
+        </script>
+</body>
+</html>

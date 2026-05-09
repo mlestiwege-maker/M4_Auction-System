@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help & FAQ - AuctionHub</title>
+    <style>
+        :root {
+            --primary: #667eea;
+            --primary-dark: #5568d3;
+            --secondary: #764ba2;
+            --bg: #f5f5f5;
+            --surface: #ffffff;
+            --text: #333;
+            --text-light: #555;
+            --border: #e2e8f0;
+        }
+
+        body[data-theme='dark'] {
+            --bg: #0f172a;
+            --surface: #111827;
+            --text: #e5e7eb;
+            --text-light: #9ca3af;
+            --border: #334155;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--bg);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 1.5rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        nav h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 2rem;
+            transition: opacity 0.3s;
+        }
+
+        nav a:hover {
+            opacity: 0.8;
+        }
+
+        .theme-toggle {
+            margin-left: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            background: rgba(255, 255, 255, 0.12);
+            color: #fff;
+            border-radius: 999px;
+            padding: 0.45rem 0.85rem;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.22);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        section {
+            padding: 2rem 0;
+        }
+
+        .faq-item {
+            background: var(--surface);
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            background: var(--surface);
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--primary);
+            transition: background-color 0.3s;
+        }
+
+        body[data-theme='dark'] .faq-question {
+            background: var(--surface-alt, #1f2937);
+        }
+
+        .faq-question:hover {
+            background-color: var(--surface-alt, #f0f0f0);
+        }
+
+        .faq-arrow {
+            font-size: 1.2rem;
+            transition: transform 0.3s;
+        }
+
+        .faq-item.active .faq-arrow {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s, padding 0.3s;
+            color: var(--text-light);
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+            padding: 1.5rem;
+        }
+
+        .help-category {
+            margin-bottom: 3rem;
+        }
+
+        .help-category h3 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 0.5rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 2rem;
+            background-color: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            margin-top: 1rem;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        footer {
+            background: #333;
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+            margin: 0 1rem;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav a {
+                margin-left: 0;
+            }
+
+            .theme-toggle {
+                margin-left: 0;
+                margin-top: 0.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <h1>🔨 AuctionHub</h1>
+            <div>
+                <a href="index.html">Home</a>
+                <a href="features.html">Features</a>
+                <a href="help.html">Help</a>
+                <a href="about.html">About</a>
+                 <a href="/auction_system/index.php">Platform</a>
+                <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle light and dark theme">🌙 Dark</button>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h2>Help & FAQ</h2>
+        <p>Find answers to common questions about AuctionHub</p>
+    </section>
+
+    <div class="container">
+        <section class="help-category">
+            <h3>Getting Started</h3>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    How do I create an account?
+                    <span class="faq-arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Click the "Create Account" button on our homepage or go to the registration page. Fill in your email, username, and password, then click submit. You'll immediately be able to start bidding!</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    Is registration free?
+                    <span class="faq-arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Yes! Creating an account on AuctionHub is completely free. There are no hidden fees for registration or browsing auctions. You only pay when you win an item.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    How do I log in?
+                    <span class="faq-arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Simply enter your username and password on the login page. If you forgot your password, contact our support team. Make sure your browser allows cookies and JavaScript for the best experience.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="help-category">
+            <h3>Bidding & Auctions</h3>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    How do I place a bid?
+                    <span class="faq-arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>When viewing an auction, enter your bid amount in the bidding form and click "Place Bid". Your bid must be higher than the current highest bid. You'll see an instant confirmation.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    What is auto-bidding?
+                    <span class="faq-arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Auto-bidding allows our system to bid on your behalf up to a maximum price you set. If someone outbids you, we'll automatically place a new bid (up to your maximum) to keep you in the lead.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    How long do auctions last?
+                    <span class="faq-arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Auction length is set by the seller when they create the item. Most auctions last between 3 to 30 days. You can see the exact end time on each auction page with a live countdown timer.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    What happens if I'm outbid?
+                    <span class="faq-arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>You'll receive a notification if you're outbid. If you have auto-bidding enabled, our system will automatically place a higher bid for you (up to your maximum). If the bid exceeds your maximum, you can place a new manual bid.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    What does the Watchlist do?
+                    <span class="faq-arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>The Watchlist lets you save your favorite auctions for later. You can add items to your watchlist by clicking the star icon. You'll be able to quickly access them from your watchlist page.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="help-category">
+            <h3>Selling Items</h3>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    How do I list an item for auction?
+                    <span class="faq-arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Log in to your account and navigate to "Sell Item" or your seller dashboard. Fill in the item details (title, description, category, starting price, images), set the duration, and submit. Your item will be live immediately!</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    Can I edit or delete my listings?
+                    <span class="faq-arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Yes! From your seller dashboard, you can edit your active auctions to change the description, images, or other details. If no bids have been placed yet, you can also delete the item entirely.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    How many items can I sell?
+                    <span class="faq-arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>There's no limit! Sell as many items as you'd like. Build your reputation through successful auctions and positive reviews to attract more buyers.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    How do I see my earnings?
+                    <span class="faq-arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Your seller dashboard displays your total earnings from completed auctions. You can see metrics including the number of items sold, total bids received, and estimated earnings.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="help-category">
+            <h3>Reviews & Ratings</h3>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    How do I leave a review?
+                    <span class="faq-arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>You can leave a review for a seller after you've won one of their auctions. Go to the auction page and fill in the review form (1-5 stars and optional comments). Your review helps other buyers make informed decisions.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    Can I see all reviews for a seller?
+                    <span class="faq-arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Yes! Each auction page displays the seller's average rating and shows recent reviews. Click "View all seller reviews" to see the complete history of feedback for that seller.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="help-category">
+            <h3>Notifications</h3>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    What are notifications?
+                    <span class="faq-arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Notifications keep you updated on your auctions. You'll receive alerts when you're outbid, when your auction is about to end, when you win an item, and when a new bid is placed on your auction.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    Where can I see all my notifications?
+                    <span class="faq-arrow">▼</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Click the notification bell icon in the header to see your recent notifications. You can also go to your notification center for a complete list of all past notifications.</p>
+                </div>
+            </div>
+        </section>
+
+        <section style="text-align: center; padding: 3rem 0;">
+            <h3>Still need help?</h3>
+            <p>If you can't find the answer you're looking for, please contact our support team.</p>
+            <a href="contact.html" class="btn">Contact Us</a>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 AuctionHub - All rights reserved |
+            <a href="index.html">Home</a>
+            <a href="privacy.html">Privacy</a>
+            <a href="terms.html">Terms</a>
+            <a href="contact.html">Contact</a>
+        </p>
+    </footer>
+
+    <script>
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', function() {
+                const item = this.parentElement;
+                item.classList.toggle('active');
+            });
+        });
+
+        (function() {
+                    const storageKey = 'auctionhub_theme';
+                    const toggleButton = document.getElementById('themeToggle');
+
+                    const applyTheme = function(theme) {
+                        document.body.setAttribute('data-theme', theme);
+                        if (toggleButton) {
+                            toggleButton.textContent = theme === 'dark' ? '☀️ Light' : '🌙 Dark';
+                        }
+                    };
+
+                    const savedTheme = localStorage.getItem(storageKey);
+                    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                    applyTheme(savedTheme || (prefersDark ? 'dark' : 'light'));
+
+                    if (toggleButton) {
+                        toggleButton.addEventListener('click', function() {
+                            const currentTheme = document.body.getAttribute('data-theme') || 'light';
+                            const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                            localStorage.setItem(storageKey, nextTheme);
+                            applyTheme(nextTheme);
+                        });
+                    }
+        })();
+    </script>
+</body>
+</html>

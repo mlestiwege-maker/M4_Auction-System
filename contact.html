@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us - AuctionHub</title>
+  <style>
+    :root {
+      --primary: #667eea;
+      --secondary: #764ba2;
+      --accent: #f093fb;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --shadow: 0 14px 40px rgba(15, 23, 42, 0.10);
+      --radius: 18px;
+    }
+
+    body[data-theme='dark'] {
+      --bg: #0f172a;
+      --surface: #1e293b;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --border: #334155;
+      --shadow: 0 14px 40px rgba(0, 0, 0, 0.30);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .topbar {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #fff;
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .topbar-inner,
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 1.25rem;
+    }
+
+    .topbar-inner {
+      min-height: 76px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      font-weight: 800;
+      font-size: 1.3rem;
+    }
+
+    .brand-badge {
+      width: 42px;
+      height: 42px;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 14px;
+      background: rgba(255,255,255,.16);
+      border: 1px solid rgba(255,255,255,.25);
+      font-size: 1.2rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: .6rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      color: #fff;
+      padding: .6rem .95rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.22);
+      background: rgba(255,255,255,.08);
+      transition: transform .2s ease, background .2s ease;
+    }
+    .nav-links a:hover { transform: translateY(-2px); background: rgba(255,255,255,.16); }
+
+    .theme-toggle {
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+      border-radius: 999px;
+      padding: .58rem .9rem;
+      font-size: .84rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform .2s ease, background .2s ease;
+    }
+    .theme-toggle:hover { transform: translateY(-2px); background: rgba(255,255,255,.18); }
+
+    .hero {
+      padding: 3.5rem 1.25rem 1.5rem;
+      text-align: center;
+    }
+
+    .hero-card {
+      max-width: 920px;
+      margin: 0 auto;
+      background: linear-gradient(135deg, rgba(102,126,234,.95), rgba(118,75,162,.96));
+      color: #fff;
+      border-radius: 28px;
+      padding: 2.5rem 1.5rem;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card::before,
+    .hero-card::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255,255,255,.10);
+      filter: blur(8px);
+    }
+    .hero-card::before { width: 180px; height: 180px; top: -40px; right: -20px; }
+    .hero-card::after { width: 140px; height: 140px; bottom: -30px; left: -20px; }
+
+    .hero-card h1 { margin: 0 0 .5rem; font-size: clamp(2rem, 5vw, 3.4rem); }
+    .hero-card p { margin: 0 auto; max-width: 700px; opacity: .95; font-size: 1.05rem; }
+
+    .quick-actions {
+      display: flex;
+      gap: .85rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 1.5rem;
+    }
+
+    .action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .6rem;
+      padding: .9rem 1.15rem;
+      border-radius: 999px;
+      font-weight: 700;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.22);
+      color: #fff;
+      transition: transform .2s ease, background .2s ease;
+    }
+    .action-btn:hover { transform: translateY(-2px); background: rgba(255,255,255,.18); }
+
+    .action-btn.wa-action {
+      background: rgba(37, 211, 102, .16);
+      border-color: rgba(37, 211, 102, .30);
+      box-shadow: 0 10px 24px rgba(37, 211, 102, .18);
+    }
+    .action-btn.wa-action:hover {
+      background: rgba(37, 211, 102, .22);
+      box-shadow: 0 14px 28px rgba(37, 211, 102, .24);
+    }
+
+    .wa-icon-badge {
+      width: 22px;
+      height: 22px;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 999px;
+      background: #25d366;
+      box-shadow: 0 8px 16px rgba(37, 211, 102, .28);
+      color: #fff;
+      font-size: .95rem;
+      line-height: 1;
+      font-weight: 900;
+    }
+
+    .section {
+      padding: 1rem 1.25rem 2rem;
+    }
+
+    .grid {
+      max-width: 1180px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 1.2rem;
+    }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1.35rem;
+    }
+
+    .contact-summary { grid-column: span 12; }
+    .contact-summary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin-top: 1.2rem;
+    }
+
+    .mini-card {
+      background: linear-gradient(180deg, #fff, #f8fafc);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1rem;
+      text-align: center;
+      min-height: 150px;
+      display: grid;
+      place-items: center;
+    }
+
+    .mini-card .icon {
+      width: 56px;
+      height: 56px;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      font-size: 1.35rem;
+      background: linear-gradient(135deg, rgba(102,126,234,.12), rgba(118,75,162,.12));
+      margin-bottom: .65rem;
+    }
+
+    .mini-card strong { display: block; margin-bottom: .25rem; font-size: 1.02rem; }
+    .mini-card span { color: var(--muted); font-size: .95rem; }
+
+    .contact-form-panel { grid-column: span 7; }
+    .side-panel { grid-column: span 5; }
+
+    .contact-form {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .field-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    label { display: block; font-weight: 700; margin-bottom: .45rem; }
+    input, textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: .95rem 1rem;
+      font: inherit;
+      background: #fff;
+      color: var(--text);
+    }
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(102,126,234,.12);
+    }
+    textarea { min-height: 140px; resize: vertical; }
+
+    .submit-btn {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: .6rem;
+      border: 0;
+      border-radius: 14px;
+      padding: 1rem 1.2rem;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #fff;
+      font-weight: 800;
+      font-size: 1rem;
+      cursor: pointer;
+      box-shadow: 0 12px 28px rgba(102,126,234,.24);
+    }
+
+    .social-box h2,
+    .panel h2,
+    .panel h3 { margin-top: 0; }
+
+    .social-links {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .8rem;
+      margin-top: 1rem;
+    }
+
+    .social-link {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      padding: .95rem 1rem;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: #fff;
+      transition: transform .2s ease, box-shadow .2s ease;
+      font-weight: 700;
+    }
+.social-link:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+    .social-link.wa {
+      border-color: rgba(37, 211, 102, .25);
+      box-shadow: 0 8px 20px rgba(37, 211, 102, .10);
+    }
+    .social-link.wa:hover {
+      box-shadow: 0 16px 28px rgba(37, 211, 102, .18);
+    }
+
+    .social-link.fb {
+      border-color: rgba(24, 119, 242, .25);
+      box-shadow: 0 8px 20px rgba(24, 119, 242, .10);
+    }
+    .social-link.fb:hover {
+      box-shadow: 0 16px 28px rgba(24, 119, 242, .18);
+    }
+
+    .social-link.tw {
+      border-color: rgba(29, 161, 242, .25);
+      box-shadow: 0 8px 20px rgba(29, 161, 242, .10);
+    }
+    .social-link.tw:hover {
+      box-shadow: 0 16px 28px rgba(29, 161, 242, .18);
+    }
+
+    .social-link.ig {
+      border-color: rgba(221, 42, 123, .25);
+      box-shadow: 0 8px 20px rgba(221, 42, 123, .10);
+    }
+    .social-link.ig:hover {
+
+       box-shadow: 0 16px 28px rgba(221, 42, 123, .18);
+     }
+
+    .wa { background: linear-gradient(135deg, #e8fff1, #f3fff7); }
+    .fb { background: linear-gradient(135deg, #edf3ff, #f5f8ff); }
+    .tw { background: linear-gradient(135deg, #eaf7ff, #f5fbff); }
+    .ig { background: linear-gradient(135deg, #fff0f6, #fff7fb); }
+
+    body[data-theme='dark'] .wa { background: linear-gradient(135deg, #153a26, #1a452e); }
+    body[data-theme='dark'] .fb { background: linear-gradient(135deg, #152444, #1a2c56); }
+    body[data-theme='dark'] .tw { background: linear-gradient(135deg, #10284a, #15335e); }
+    body[data-theme='dark'] .ig { background: linear-gradient(135deg, #3b1222, #4a172c); }
+
+    body[data-theme='dark'] .panel,
+    body[data-theme='dark'] .mini-card,
+    body[data-theme='dark'] .social-link,
+    body[data-theme='dark'] .contact-link,
+    body[data-theme='dark'] input,
+    body[data-theme='dark'] textarea {
+      background: var(--surface);
+      border-color: var(--border);
+      color: var(--text);
+    }
+
+body[data-theme='dark'] input,
+    body[data-theme='dark'] textarea {
+      background: #111827;
+      color: var(--text);
+    }
+
+    body[data-theme='dark'] .mini-card {
+      background: linear-gradient(180deg, #1e293b, #1a2533);
+    }
+
+    .social-ico {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      display: inline-grid;
+      place-items: center;
+      color: #fff;
+      flex: 0 0 auto;
+    }
+    .wa .social-ico {
+      background: linear-gradient(135deg, #25d366, #1fa855);
+      box-shadow: 0 10px 18px rgba(37, 211, 102, .24);
+      position: relative;
+      overflow: hidden;
+    }
+    .wa .social-ico::after {
+      content: '';
+      position: absolute;
+      inset: -40% 10% auto auto;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.22);
+      filter: blur(2px);
+    }
+    .wa .social-ico svg {
+      width: 20px;
+      height: 20px;
+      fill: #fff;
+      display: block;
+    }
+    .fb .social-ico {
+      background: linear-gradient(135deg, #1877f2, #1565c0);
+      box-shadow: 0 10px 18px rgba(24, 119, 242, .24);
+      position: relative;
+      overflow: hidden;
+    }
+    .fb .social-ico::after {
+      content: '';
+      position: absolute;
+      inset: -40% 10% auto auto;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.22);
+      filter: blur(2px);
+    }
+    .fb .social-ico svg {
+      width: 20px;
+      height: 20px;
+      fill: #fff;
+      display: block;
+    }
+    .tw .social-ico {
+      background: linear-gradient(135deg, #1da1f2, #0d8de1);
+      box-shadow: 0 10px 18px rgba(29, 161, 242, .24);
+      position: relative;
+      overflow: hidden;
+    }
+    .tw .social-ico::after {
+      content: '';
+      position: absolute;
+      inset: -40% 10% auto auto;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.22);
+      filter: blur(2px);
+    }
+    .tw .social-ico svg {
+      width: 18px;
+      height: 18px;
+      fill: #fff;
+      display: block;
+    }
+    .ig .social-ico {
+      background: linear-gradient(45deg, #f58529, #dd2a7b, #8134af);
+      box-shadow: 0 10px 18px rgba(221, 42, 123, .24);
+      position: relative;
+      overflow: hidden;
+    }
+    .ig .social-ico::after {
+      content: '';
+      position: absolute;
+      inset: -40% 10% auto auto;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.22);
+      filter: blur(2px);
+    }
+    .ig .social-ico svg {
+      width: 20px;
+      height: 20px;
+      fill: #fff;
+      display: block;
+    }
+
+    .contact-links {
+      display: grid;
+      gap: .8rem;
+      margin-top: 1rem;
+    }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+      padding: .95rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: #fff;
+    }
+
+    .contact-link .badge {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      display: inline-grid;
+      place-items: center;
+      background: linear-gradient(135deg, rgba(102,126,234,.12), rgba(118,75,162,.12));
+      font-size: 1.1rem;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 1.5rem;
+      color: var(--muted);
+    }
+
+    .footer a { color: var(--primary); font-weight: 700; }
+
+    @media (max-width: 980px) {
+      .contact-form-panel, .side-panel { grid-column: span 12; }
+      .contact-summary-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 640px) {
+      .topbar-inner { justify-content: center; }
+      .nav-links { justify-content: center; }
+      .field-grid, .contact-summary-grid, .social-links { grid-template-columns: 1fr; }
+      .hero { padding-top: 2rem; }
+      .hero-card { padding: 2rem 1.1rem; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <span class="brand-badge">🔨</span>
+        <span>AuctionHub</span>
+      </div>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="features.html">Features</a>
+        <a href="help.html">Help</a>
+        <a href="about.html">About</a>
+        <a href="index.php">Platform</a>
+        <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle light and dark theme">🌙 Dark</button>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-card">
+      <h1>Contact AuctionHub</h1>
+      <p>Need help selling, bidding, or just want to say hello? Reach us directly through phone, email, WhatsApp, or social media.</p>
+      <div class="quick-actions">
+        <a class="action-btn" href="tel:+263712246543">📞 Call Now</a>
+        <a class="action-btn" href="mailto:mlestiwege@gmail.com">✉️ Email Us</a>
+        <a class="action-btn wa-action" href="https://wa.me/263712246543?text=Hello%20AuctionHub%20Team,%20I%20would%20like%20assistance%20with%20the%20platform.%20Please%20advise%20me%20on%20the%20next%20steps.%20Thank%20you." target="_blank" rel="noopener noreferrer"><span class="wa-icon-badge">✓</span> WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="grid">
+      <div class="panel contact-summary">
+        <h2>Fast Contact Options</h2>
+        <p style="color: var(--muted); margin-top: .35rem;">Choose the fastest way to reach us. We keep it simple, friendly, and direct.</p>
+        <div class="contact-summary-grid">
+          <div class="mini-card">
+            <div class="icon">📱</div>
+            <strong>Phone</strong>
+            <span><a href="tel:+263712246543">+263 712 246 543</a></span>
+          </div>
+          <div class="mini-card">
+            <div class="icon">✉️</div>
+            <strong>Email</strong>
+            <span><a href="mailto:mlestiwege@gmail.com">mlestiwege@gmail.com</a></span>
+          </div>
+          <div class="mini-card">
+            <div class="icon">💬</div>
+            <strong>WhatsApp</strong>
+            <span><a href="https://wa.me/263712246543?text=Hello%20AuctionHub%20Team,%20I%20would%20like%20assistance%20with%20the%20platform.%20Please%20advise%20me%20on%20the%20next%20steps.%20Thank%20you." target="_blank" rel="noopener noreferrer">Chat instantly</a></span>
+          </div>
+          <div class="mini-card">
+            <div class="icon">🌐</div>
+            <strong>Social</strong>
+            <span>Facebook • Twitter • Instagram</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel contact-form-panel">
+        <h2>Send us a message</h2>
+        <form class="contact-form" method="POST" action="#" onsubmit="handleSubmit(event)">
+          <div class="field-grid">
+            <div>
+              <label for="name">Your Name *</label>
+              <input type="text" id="name" name="name" required placeholder="John Doe">
+            </div>
+            <div>
+              <label for="email">Email Address *</label>
+              <input type="email" id="email" name="email" required placeholder="you@example.com">
+            </div>
+          </div>
+          <div>
+            <label for="subject">Subject *</label>
+            <input type="text" id="subject" name="subject" required placeholder="How can we help?">
+          </div>
+          <div>
+            <label for="message">Message *</label>
+            <textarea id="message" name="message" required placeholder="Tell us more about your inquiry..."></textarea>
+          </div>
+          <button type="submit" class="submit-btn">Send Message</button>
+        </form>
+      </div>
+
+      <aside class="panel side-panel">
+        <h2>Reach us on social media</h2>
+        <p style="color: var(--muted); margin-top: .35rem;">Stay connected, follow updates, and message us on your favorite platform.</p>
+        <div class="social-links">
+           <a class="social-link wa" href="https://wa.me/263712246543?text=Hello%20AuctionHub%20Team,%20I%20would%20like%20assistance%20with%20the%20platform.%20Please%20advise%20me%20on%20the%20next%20steps.%20Thank%20you." target="_blank" rel="noopener noreferrer">
+             <span class="social-ico" aria-hidden="true">
+               <svg viewBox="0 0 24 24" role="img" aria-label="WhatsApp">
+                 <path d="M20.52 3.48A11.8 11.8 0 0 0 12.04 0C5.41 0 .02 5.37.02 11.98c0 2.11.56 4.17 1.62 5.97L0 24l6.22-1.63a11.94 11.94 0 0 0 5.81 1.49h.01c6.62 0 12.01-5.37 12.01-11.98 0-3.2-1.25-6.2-3.53-8.4Zm-8.48 18.4a9.93 9.93 0 0 1-5.07-1.39l-.36-.21-3.69.97.99-3.59-.23-.37a9.9 9.9 0 1 1 8.36 4.6Zm5.77-7.27c-.31-.16-1.84-.9-2.12-1.01-.28-.11-.48-.16-.68.16-.2.31-.78 1.01-.96 1.21-.18.2-.36.23-.67.08-.31-.16-1.33-.49-2.53-1.57-.93-.84-1.56-1.88-1.74-2.19-.18-.31-.02-.48.14-.64.14-.14.31-.36.47-.54.16-.18.2-.31.31-.52.1-.2.05-.39-.02-.55-.08-.16-.68-1.64-.93-2.24-.25-.6-.5-.52-.68-.53h-.58c-.2 0-.52.08-.79.39-.27.31-1.04 1.02-1.04 2.48 0 1.46 1.07 2.87 1.22 3.07.16.2 2.1 3.2 5.08 4.49.71.31 1.27.5 1.7.64.71.23 1.36.2 1.87.12.57-.08 1.84-.75 2.1-1.48.26-.74.26-1.37.18-1.5-.08-.13-.28-.2-.58-.36Z"/>
+               </svg>
+             </span>
+             <span>WhatsApp</span>
+           </a>
+           <a class="social-link fb" href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer">
+             <span class="social-ico" aria-hidden="true">
+               <svg viewBox="0 0 24 24" role="img" aria-label="Facebook">
+                 <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 5 3.66 9.13 8.44 9.88v-6.99H7.9v-2.89h2.54V9.41c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.44 2.89h-2.34v6.99C18.34 21.13 22 17 22 12Z"/>
+               </svg>
+             </span>
+             <span>Facebook</span>
+           </a>
+           <a class="social-link tw" href="https://twitter.com/" target="_blank" rel="noopener noreferrer">
+             <span class="social-ico" aria-hidden="true">
+               <svg viewBox="0 0 24 24" role="img" aria-label="Twitter">
+                 <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 22.51H1.68l7.73-8.845L1.254 2.25H8.08l4.763 6.231L18.244 2.25ZM17.564 19.97l1.665-12.294-11.29 12.29h11.29Z"/>
+               </svg>
+             </span>
+             <span>Twitter / X</span>
+           </a>
+           <a class="social-link ig" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">
+             <span class="social-ico" aria-hidden="true">
+               <svg viewBox="0 0 24 24" role="img" aria-label="Instagram">
+                 <path d="M12 2.2c3.2 0 3.6 0 4.9.07 1.2.07 1.9.27 2.4.44.6.19 1 .4 1.4.78.43.4.65.8.78 1.4.17.5.37 1.2.44 2.4.07 1.3.07 1.7.07 4.9s0 3.6-.07 4.9c-.07 1.2-.27 1.9-.44 2.4-.19.6-.4 1-.78 1.4-.4.4-.8.65-1.4.78-.5.17-1.2.37-2.4.44-1.3.07-1.7.07-4.9.07s-3.6 0-4.9-.07c-1.2-.07-1.9-.27-2.4-.44-.6-.19-1-.4-1.4-.78-.43-.4-.65-.8-.78-1.4-.17-.5-.37-1.2-.44-2.4C2.2 15.6 2.2 15.2 2.2 12s0-3.6.07-4.9c.07-1.2.27-1.9.44-2.4.19-.6.4-1 .78-1.4.4-.4.8-.65 1.4-.78.5-.17 1.2-.37 2.4-.44C8.4 2.2 8.8 2.2 12 2.2Zm0 1.8c-3.17 0-3.56 0-4.75.07-1.08.07-1.66.22-2.08.38-.48.18-.76.39-1 .68-.25.3-.41.6-.57 1.02-.16.42-.3 1-.36 2.07C2.19 8.4 2.2 8.8 2.2 12s0 3.6.07 4.75c.07 1.08.22 1.66.38 2.08.18.48.39.76.68 1 .3.25.6.41 1.02.57.42.16 1 .3 2.07.36.4.02.87.04 1.75.04s1.35-.02 1.75-.04c1.08-.06 1.66-.2 2.08-.38.48-.18.76-.39 1-.68.25-.3.41-.6.57-1.02.16-.42.3-1 .36-2.07.07-1.19.07-1.59.07-4.75s0-3.6-.07-4.75c-.07-1.08-.22-1.66-.38-2.08-.18-.48-.39-.76-.68-1-.3-.25-.6-.41-1.02-.57-.42-.16-1-.3-2.07-.36-.4-.02-.87-.04-1.75-.04s-1.35.02-1.75.04c-1.08.06-1.66.2-2.08.38-.48.18-.76.39-1 .68-.25.3-.41.6-.57 1.02-.16.42-.3 1-.36 2.07C2.19 8.4 2.22 8.8 2.2 12v.01Z"/>
+                 <path d="M12 5.8a6.2 6.2 0 1 0 0 12.4 6.2 6.2 0 0 0 0-12.4Zm0 10.2a4 4 0 1 1 0-8 4 4 0 0 1 0 8ZM18.4 4.6a1.44 1.44 0 1 1-2.88 0 1.44 1.44 0 0 1 2.88 0Z"/>
+               </svg>
+             </span>
+<span>Instagram</span>
+            </a>
+            </div>
+
+          <div class="contact-links">
+          <div class="contact-link">
+            <span class="badge">📍</span>
+            <div>
+              <strong>Office Hours</strong><br>
+              <span style="color: var(--muted);">Mon-Fri: 9AM - 5PM</span>
+            </div>
+          </div>
+          <div class="contact-link">
+            <span class="badge">🛡️</span>
+            <div>
+              <strong>Support Focus</strong><br>
+              <span style="color: var(--muted);">Bidding, selling, account help, and reporting issues</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top: 0;">
+    <div class="grid">
+      <div class="panel" style="grid-column: span 12; text-align: center;">
+        <h2>Frequently Asked Questions</h2>
+<p style="color: var(--muted); margin: .35rem auto 0; max-width: 760px;">
+           Can't find what you're looking for? Check our <a href="help.html" style="color: var(--primary); font-weight: 800;">Help Center</a> for guides and FAQs.
+         </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="footer">
+    <p>&copy; 2026 AuctionHub - All rights reserved | <a href="index.html">Home</a> • <a href="privacy.html">Privacy</a> • <a href="terms.html">Terms</a> • <a href="contact.html">Contact</a></p>
+  </div>
+
+<script>
+    function handleSubmit(event) {
+      event.preventDefault();
+      alert('Thank you for your message! We will get back to you soon.');
+      event.target.reset();
+    }
+
+    (function() {
+      const storageKey = 'auctionhub_theme';
+      const toggleButton = document.getElementById('themeToggle');
+
+      const applyTheme = function(theme) {
+        document.body.setAttribute('data-theme', theme);
+        if (toggleButton) {
+          toggleButton.textContent = theme === 'dark' ? '☀️ Light' : '🌙 Dark';
+        }
+      };
+
+      const savedTheme = localStorage.getItem(storageKey);
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      applyTheme(savedTheme || (prefersDark ? 'dark' : 'light'));
+
+      if (toggleButton) {
+        toggleButton.addEventListener('click', function() {
+          const currentTheme = document.body.getAttribute('data-theme') || 'light';
+          const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+          localStorage.setItem(storageKey, nextTheme);
+          applyTheme(nextTheme);
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
