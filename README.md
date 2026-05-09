@@ -65,6 +65,18 @@ To stop the PHP server from another terminal:
 ./stop.sh
 ```
 
+Reset database for a clean demo run (drops and recreates `auction_db`):
+
+```bash
+./reset-db.sh
+```
+
+Non-interactive reset (CI/demo automation):
+
+```bash
+./reset-db.sh --yes
+```
+
 ---
 
 ## 📁 Project Structure
