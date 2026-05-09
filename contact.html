@@ -507,6 +507,35 @@ body[data-theme='dark'] input,
 
     .footer a { color: var(--primary); font-weight: 700; }
 
+    .muted-text {
+      color: var(--muted);
+      margin-top: .35rem;
+    }
+
+    .muted-inline {
+      color: var(--muted);
+    }
+
+    .faq-wrapper {
+      padding-top: 0;
+    }
+
+    .faq-panel {
+      grid-column: span 12;
+      text-align: center;
+    }
+
+    .faq-panel-text {
+      color: var(--muted);
+      margin: .35rem auto 0;
+      max-width: 760px;
+    }
+
+    .primary-inline-link {
+      color: var(--primary);
+      font-weight: 800;
+    }
+
     @media (max-width: 980px) {
       .contact-form-panel, .side-panel { grid-column: span 12; }
       .contact-summary-grid { grid-template-columns: repeat(2, 1fr); }
@@ -555,7 +584,7 @@ body[data-theme='dark'] input,
     <div class="grid">
       <div class="panel contact-summary">
         <h2>Fast Contact Options</h2>
-        <p style="color: var(--muted); margin-top: .35rem;">Choose the fastest way to reach us. We keep it simple, friendly, and direct.</p>
+        <p class="muted-text">Choose the fastest way to reach us. We keep it simple, friendly, and direct.</p>
         <div class="contact-summary-grid">
           <div class="mini-card">
             <div class="icon">📱</div>
@@ -607,7 +636,7 @@ body[data-theme='dark'] input,
 
       <aside class="panel side-panel">
         <h2>Reach us on social media</h2>
-        <p style="color: var(--muted); margin-top: .35rem;">Stay connected, follow updates, and message us on your favorite platform.</p>
+        <p class="muted-text">Stay connected, follow updates, and message us on your favorite platform.</p>
         <div class="social-links">
            <a class="social-link wa" href="https://wa.me/263712246543?text=Hello%20AuctionHub%20Team,%20I%20would%20like%20assistance%20with%20the%20platform.%20Please%20advise%20me%20on%20the%20next%20steps.%20Thank%20you." target="_blank" rel="noopener noreferrer">
              <span class="social-ico" aria-hidden="true">
@@ -649,14 +678,14 @@ body[data-theme='dark'] input,
             <span class="badge">📍</span>
             <div>
               <strong>Office Hours</strong><br>
-              <span style="color: var(--muted);">Mon-Fri: 9AM - 5PM</span>
+              <span class="muted-inline">Mon-Fri: 9AM - 5PM</span>
             </div>
           </div>
           <div class="contact-link">
             <span class="badge">🛡️</span>
             <div>
               <strong>Support Focus</strong><br>
-              <span style="color: var(--muted);">Bidding, selling, account help, and reporting issues</span>
+              <span class="muted-inline">Bidding, selling, account help, and reporting issues</span>
             </div>
           </div>
         </div>
@@ -664,12 +693,12 @@ body[data-theme='dark'] input,
     </div>
   </section>
 
-  <section class="section" style="padding-top: 0;">
+  <section class="section faq-wrapper">
     <div class="grid">
-      <div class="panel" style="grid-column: span 12; text-align: center;">
+      <div class="panel faq-panel">
         <h2>Frequently Asked Questions</h2>
-<p style="color: var(--muted); margin: .35rem auto 0; max-width: 760px;">
-           Can't find what you're looking for? Check our <a href="help.html" style="color: var(--primary); font-weight: 800;">Help Center</a> for guides and FAQs.
+<p class="faq-panel-text">
+           Can't find what you're looking for? Check our <a href="help.html" class="primary-inline-link">Help Center</a> for guides and FAQs.
          </p>
       </div>
     </div>

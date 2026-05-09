@@ -83,12 +83,14 @@ auction_system/
 │   └── mark_notification_read.php
 ├── includes/
 │   ├── header.php
-│   ├── db.php              # Database connection
+│   ├── footer.php
 │   └── auction_helpers.php
+├── config/
+│   └── db.php              # Database connection
 └── assets/
     ├── css/style.css
     ├── js/script.js
-    └── images/
+    └── uploads/
 ```
 
 ---
@@ -213,7 +215,7 @@ Great for testing all features without manual setup!
 ```
 POST /items/place_bid.php              - Submit a bid
 POST /items/finalize_auctions.php      - Close expired auctions
-POST /user/toggle_watchlist.php        - Add/remove watchlist
+POST /items/toggle_watchlist.php       - Add/remove watchlist
 GET  /user/get_notifications.php       - Fetch user notifications
 POST /user/mark_notification_read.php  - Mark notification read
 POST /reviews/submit_review.php        - Submit seller review
@@ -233,7 +235,7 @@ All endpoints require CSRF token in POST requests.
 
 **Database (2):** schema.sql, seed_data.sql
 
-**Assets:** style.css (responsive design), script.js (AJAX & real-time updates)
+**Assets:** style.css (responsive design), script.js (AJAX & real-time updates), uploads/ (user and fallback images)
 
 ---
 
