@@ -16,8 +16,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty($errors)) {
         $hash = password_hash($password, PASSWORD_DEFAULT);
-        $stmt = $conn->prepare('INSERT INTO users (name, email, password) VALUES (?, ?, ?)');
-        $stmt->bind_param('sss', $name, $email, $hash);
+        $role = 'buyer';  // New users default to buyer role
+        $stmt = $conn->prepare('INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)');
+        $stmt->bind_param('ssss', $name, $email, $hash, $role);
         if ($stmt->execute()) {
             $success = true;
         } else {
@@ -32,14 +33,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 <?php include(__DIR__ . '/../includes/header.php'); ?>
 
-<main style="max-width: 500px; margin: 3rem auto; padding: 0 1.5rem;">
-    <div class="panel" style="margin-top: 2rem;">
-        <h2 style="text-align: center; margin-bottom: 1.5rem; color: var(--primary);">Create Your Account</h2>
-        <p style="text-align: center; color: var(--text-light); margin-bottom: 2rem;">Join AuctionHub and start bidding or selling today!</p>
+<main class="auth-page">
+    <div class="auth-layout">
+        <section class="auth-hero" aria-label="Registration highlights">
+            <div class="auth-kicker">AH AuctionHub</div>
+            <h2>Create your account.</h2>
+            <p>Join the marketplace and start buying, selling, and tracking auctions from one polished dashboard.</p>
+
+            <div class="auth-points">
+                <div class="auth-point"><span>🚀</span><div><strong>Quick setup</strong><span>Register in a few easy steps.</span></div></div>
+                <div class="auth-point"><span>📋</span><div><strong>Seller ready</strong><span>Post listings and start selling fast.</span></div></div>
+                <div class="auth-point"><span>🔒</span><div><strong>Secure by design</strong><span>Your account is protected from day one.</span></div></div>
+            </div>
+        </section>
+
+        <section class="auth-card">
+            <h2>Create Your Account</h2>
+            <p>Join AuctionHub to start bidding or selling</p>
 
         <?php if ($success): ?>
             <div class="alert alert-success">
-                <strong>Success!</strong> Your account has been created. <a href="/auction_system/auth/login.php" style="color: var(--primary);">Login here</a>
+                <strong>Success!</strong> Your account has been created. <a href="/auction_system/auth/login.php">Login here</a>
             </div>
         <?php else: ?>
             <?php if ($errors): ?>
@@ -69,13 +83,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <label for="confirm_password">Confirm Password</label>
                     <input type="password" id="confirm_password" name="confirm_password" placeholder="Re-enter your password" required minlength="6">
                 </div>
-                <button type="submit" class="btn" style="width: 100%;">Create Account</button>
+                <button type="submit" class="btn">Create Account</button>
             </form>
 
-            <p style="text-align: center; margin-top: 1.5rem; color: var(--text-light);">
-                Already have an account? <a href="/auction_system/auth/login.php" style="color: var(--primary);">Sign In</a>
+            <p class="auth-footer">
+                Already have an account? <a href="/auction_system/auth/login.php">Sign in</a>
             </p>
         <?php endif; ?>
+        </section>
     </div>
 </main>
 

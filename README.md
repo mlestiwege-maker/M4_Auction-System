@@ -1,11 +1,11 @@
 # AuctionHub - Online Marketplace & Bidding Platform
 
-A modern, full-featured auction system built with PHP, MySQL, JavaScript, and CSS. Real-time bidding, auto-bidding, seller dashboard, reviews, notifications, and more.
+A modern, full-featured auction system built with PHP, MySQL, JavaScript, and CSS. Real-time bidding, auto-bidding, seller dashboard, reviews, notifications, and more — branded with a custom logo mark.
 
 ## 🚀 Quick Start
 
 ### Prerequisites
-- PHP 7.4+ (with built-in web server or Apache)
+- Apache 2.4+ (with PHP module) or PHP 7.4+ built-in web server
 - MySQL/MariaDB 5.7+
 - Web browser (Chrome, Firefox, Safari, Edge)
 - Git (optional)
@@ -23,22 +23,39 @@ mysql -u root < schema.sql
 mysql -u root auction_db < seed_data.sql
 ```
 
-### Step 2: Start PHP Development Server
+### Step 2: Start Web Server
+
+#### Option A: Apache (Recommended)
+```bash
+# Apache is already configured and can be started with:
+sudo systemctl start apache2
+
+# Open in browser:
+# http://localhost/auction_system/index.html
+# http://localhost/auction_system/index.php
+# http://auctionhub.local/auction_system/index.php
+```
+
+#### Option B: PHP Built-in Server (Quick Development)
 ```bash
 # Navigate to project root
 cd /home/mufutumari/Desktop/M4
 
 # Start PHP server on localhost:8000
 php -S localhost:8000
+
+# Open in browser:
+# http://localhost:8000/auction_system/index.html
+# http://localhost:8000/auction_system/index.php
 ```
 
 ### Step 3: Open in Browser
-Open your browser and go to:
+With **Apache**, go to:
 ```
-http://localhost:8000/auction_system/index.html
+http://localhost/auction_system/index.php
 ```
 
-Or directly to the platform:
+Or with the PHP built-in server:
 ```
 http://localhost:8000/auction_system/index.php
 ```
@@ -50,19 +67,82 @@ From the project folder:
 ```bash
 cd /home/mufutumari/Desktop/M4/auction_system
 chmod +x run.sh stop.sh reset-db.sh
-./run.sh
+./run.sh --apache
 ```
 
 If you also want demo/sample records loaded:
 
 ```bash
-./run.sh --seed
+./run.sh --apache --seed
 ```
+
+If styles appear unchanged after updates, do a hard refresh in your browser:
+
+- **Linux/Windows:** `Ctrl + Shift + R`
+- **macOS:** `Cmd + Shift + R`
+
+### 🎨 Theme & UI Customization
+
+The visual system is centralized in:
+
+- `assets/css/style.css`
+
+Core theme tokens live in `:root` (and dark mode overrides in `body[data-theme='dark']`):
+
+- `--primary`, `--secondary`, `--accent`
+- `--surface`, `--surface-alt`, `--text`, `--text-light`
+- `--shadow-sm`, `--shadow-md`, `--shadow-lg`
+
+Useful UI utility classes already available:
+
+- Buttons: `.btn`, `.btn.secondary`, `.btn-lg`, `.btn-sm`
+- Layout: `.card-actions`, `.table-responsive`, `.two-col-grid`, `.dashboard-stats`
+- Spacing: `.mt-lg`, `.mt-md`, `.top-border`
+- Forms: `.form-group` + shared input/select/textarea styling
+
+For Safari compatibility, blur effects use both:
+
+- `backdrop-filter`
+- `-webkit-backdrop-filter`
+
+### 🖼️ Persistent Category Images (Recommended)
+
+To avoid losing category images (especially Electronics), keep files in these paths:
+
+```bash
+/home/mufutumari/Desktop/M4/auction_system/assets/uploads/fallbacks/
+/home/mufutumari/Desktop/M4/auction_system/assets/uploads/originals/electronics/
+```
+
+- Live category fallback used by the app: `assets/uploads/fallbacks/electronics.jpg`
+- Safe backup copy: `assets/uploads/originals/electronics/electronics-primary.jpg`
+
+When you add new Electronics images, keep originals in `originals/electronics/` and copy your chosen main image to `fallbacks/electronics.jpg`.
+
+For the other marketplace categories, the same durable backup pattern is now used too:
+
+- `assets/uploads/originals/fashion/fashion-primary.jpg`
+- `assets/uploads/originals/home-garden/home-garden-primary.jpg`
+- `assets/uploads/originals/collectibles/collectibles-primary.jpg`
+- `assets/uploads/originals/vehicles/vehicles-primary.jpg`
+- `assets/uploads/originals/other/other-primary.jpg`
 
 To stop the PHP server from another terminal:
 
 ```bash
 ./stop.sh
+```
+
+Check whether the app and database are responding:
+
+```bash
+curl http://localhost:8000/auction_system/healthcheck.php
+```
+
+If you're running with Apache, you can also use:
+
+```bash
+curl http://localhost/auction_system/healthcheck.php
 ```
 
 Reset database for a clean demo run (drops and recreates `auction_db`):
@@ -89,6 +169,7 @@ auction_system/
 ├── help.html               # Help & FAQ
 ├── about.html              # About page
 ├── contact.html            # Contact form
+├── healthcheck.php         # Lightweight app/DB status endpoint
 ├── privacy.html            # Privacy policy
 ├── terms.html              # Terms of service
 ├── schema.sql              # Database schema
@@ -152,6 +233,8 @@ auction_system/
 ### Platform Features
 - ✅ CSRF protection on all forms
 - ✅ Real-time AJAX updates (no page refresh)
+- ✅ Live auction search suggestions in the header
+- ✅ Quick watchlist heart toggle from browse cards
 - ✅ Responsive mobile-friendly design
 - ✅ Professional gradient UI theme
 
@@ -252,6 +335,7 @@ Great for testing all features without manual setup!
 POST /items/place_bid.php              - Submit a bid
 POST /items/finalize_auctions.php      - Close expired auctions
 POST /items/toggle_watchlist.php       - Add/remove watchlist
+GET  /items/search_suggest.php         - Live header search suggestions
 GET  /user/get_notifications.php       - Fetch user notifications
 POST /user/mark_notification_read.php  - Mark notification read
 POST /reviews/submit_review.php        - Submit seller review

@@ -6,10 +6,18 @@ ROOT_DIR="$(dirname "$APP_DIR")"
 DB_NAME="auction_db"
 DB_APP_USER="auctionhub"
 DB_APP_PASS="auction_password"
-MYSQL_CMD=(mysql -u root)
+MYSQL_CMD=(sudo mysql --skip-ssl)
+
+LAUNCH_MODE="php"
+if [[ "${1:-}" == "--apache" ]]; then
+  LAUNCH_MODE="apache"
+fi
 
 SEED=false
 if [[ "${1:-}" == "--seed" ]]; then
+  SEED=true
+fi
+if [[ "${2:-}" == "--seed" ]]; then
   SEED=true
 fi
 
@@ -74,7 +82,41 @@ start_php_server() {
   php -S localhost:8000
 }
 
+start_apache_server() {
+  local url="http://localhost/auction_system/index.php"
+
+  if [[ -f "/etc/apache2/sites-available/auctionhub.conf" ]]; then
+    sudo a2ensite auctionhub.conf >/dev/null 2>&1 || true
+    sudo a2dissite 000-default.conf >/dev/null 2>&1 || true
+  fi
+
+  if command -v systemctl >/dev/null 2>&1 && systemctl is-active --quiet apache2; then
+    echo "✅ Apache is already running."
+  else
+    echo "▶️  Starting Apache service..."
+    sudo systemctl start apache2
+  fi
+
+  sudo systemctl reload apache2 >/dev/null 2>&1 || true
+
+  echo "🚀 Apache is ready at $url"
+  if command -v google-chrome >/dev/null 2>&1; then
+    google-chrome "$url" >/dev/null 2>&1 &
+  elif command -v chromium >/dev/null 2>&1; then
+    chromium "$url" >/dev/null 2>&1 &
+  elif command -v xdg-open >/dev/null 2>&1; then
+    xdg-open "$url" >/dev/null 2>&1 &
+  fi
+
+  echo "   Open this URL if it doesn't launch automatically: $url"
+}
+
 start_mariadb
 configure_mysql_admin_command
 prepare_database
-start_php_server
+
+if [[ "$LAUNCH_MODE" == "apache" ]]; then
+  start_apache_server
+else
+  start_php_server
+fi

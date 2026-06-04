@@ -3,6 +3,8 @@ session_start();
 header('Content-Type: application/json');
 include(__DIR__ . '/../config/db.php');
 
+// Normal operation: no debug logging in production
+
 if (!isset($_SESSION['user_id'])) {
     echo json_encode(['success' => false, 'message' => 'Login required']);
     exit;
@@ -18,6 +20,7 @@ $item_id = intval($_POST['item_id'] ?? 0);
 $action = $_POST['action'] ?? 'toggle';
 
 if (!$item_id) {
+    _watchlist_debug('Invalid item_id: ' . json_encode($_POST['item_id'] ?? null));
     echo json_encode(['success' => false, 'message' => 'Invalid item']);
     exit;
 }

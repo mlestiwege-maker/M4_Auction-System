@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const bidAmount = document.getElementById('bid-amount');
   const bidHistoryEl = document.getElementById('bid-history-list');
   const liveBidFeed = document.getElementById('live-bid-feed');
+  const bidStatus = document.getElementById('bid-status');
   const watchlistButtons = Array.from(document.querySelectorAll('.watchlist-toggle'));
   const notificationBadge = document.getElementById('notification-badge');
   const notificationList = document.getElementById('notification-list');
@@ -44,6 +45,92 @@ document.addEventListener('DOMContentLoaded', () => {
   const previewWrapper = document.getElementById('image-preview');
   const previewImage = document.getElementById('image-preview-img');
   const csrfToken = window.CSRF_TOKEN || (typeof CSRF_TOKEN !== 'undefined' ? CSRF_TOKEN : '');
+
+  // Live search (typeahead) for header
+  (function() {
+    const input = document.getElementById('header-search-input');
+    const suggestions = document.getElementById('search-suggestions');
+    if (!input || !suggestions) return;
+
+    let activeIndex = -1;
+    let items = [];
+    let controller = null;
+
+    function render() {
+      if (!items.length) {
+        suggestions.innerHTML = '';
+        suggestions.setAttribute('aria-hidden', 'true');
+        return;
+      }
+      suggestions.setAttribute('aria-hidden', 'false');
+      suggestions.innerHTML = items.map((it, idx) => `
+        <a href="/auction_system/items/view_item.php?id=${it.id}" class="search-suggestion" data-index="${idx}">
+          <div class="s-img"><img src="${it.image_url || '/auction_system/assets/uploads/fallbacks/other.jpg'}" alt="" loading="lazy"></div>
+          <div class="s-meta"><strong>${escapeHtml(it.title)}</strong><small>${escapeHtml(it.category || '')} • $${it.price}</small></div>
+        </a>
+      `).join('');
+    }
+
+    function debounce(fn, ms = 250) {
+      let t;
+      return function(...args) {
+        clearTimeout(t);
+        t = setTimeout(() => fn.apply(this, args), ms);
+      };
+    }
+
+    async function fetchSuggestions(q) {
+      if (controller) controller.abort();
+      controller = new AbortController();
+      const category = (document.querySelector('.header-search select[name="category"]') || {}).value || '';
+      try {
+        const res = await fetch(`/auction_system/items/search_suggest.php?q=${encodeURIComponent(q)}&category=${encodeURIComponent(category)}`, { signal: controller.signal });
+        const json = await res.json();
+        if (!json.success) return;
+        items = json.items || [];
+        activeIndex = -1;
+        render();
+      } catch (e) {
+        if (e.name === 'AbortError') return;
+        console.error('search suggest error', e);
+      }
+    }
+
+    const onInput = debounce((e) => {
+      const q = (e.target.value || '').trim();
+      if (!q) { items = []; render(); return; }
+      fetchSuggestions(q);
+    }, 220);
+
+    input.addEventListener('input', onInput);
+
+    input.addEventListener('keydown', (e) => {
+      const suggestionsEls = Array.from(document.querySelectorAll('.search-suggestion'));
+      if (!suggestionsEls.length) return;
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        activeIndex = Math.min(activeIndex + 1, suggestionsEls.length - 1);
+        suggestionsEls.forEach((el, i) => el.classList.toggle('active', i === activeIndex));
+        suggestionsEls[activeIndex].scrollIntoView({ block: 'nearest' });
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        activeIndex = Math.max(activeIndex - 1, 0);
+        suggestionsEls.forEach((el, i) => el.classList.toggle('active', i === activeIndex));
+        suggestionsEls[activeIndex].scrollIntoView({ block: 'nearest' });
+      } else if (e.key === 'Enter') {
+        if (activeIndex >= 0 && suggestionsEls[activeIndex]) {
+          e.preventDefault();
+          window.location = suggestionsEls[activeIndex].href;
+        }
+      }
+    });
+
+    document.addEventListener('click', (ev) => {
+      if (!ev.target.closest('.header-search')) {
+        items = []; render();
+      }
+    });
+  })();
 
   function updateUrgencyCountdowns() {
     const counters = document.querySelectorAll('.live-countdown');
@@ -170,19 +257,34 @@ document.addEventListener('DOMContentLoaded', () => {
       notificationBadge.style.display = unread > 0 ? 'inline-flex' : 'none';
 
       if (notificationList) {
-        notificationList.innerHTML = json.notifications.map((n) => `
-          <li class="notification-item ${n.is_read === '1' || n.is_read === 1 ? 'read' : 'unread'}" data-id="${n.id}">
-            <div>
-              <strong>${escapeHtml(String(n.type).replace(/_/g, ' '))}</strong>
-              <p>${escapeHtml(n.message)}</p>
-              <small>${escapeHtml(n.created_at)}</small>
-            </div>
-            <div class="card-actions">
-              ${n.link ? `<a class="btn" href="${escapeHtml(n.link)}">Open</a>` : ''}
-              ${String(n.is_read) === '0' ? `<button class="btn secondary mark-read" data-id="${n.id}">Mark read</button>` : ''}
-            </div>
-          </li>
-        `).join('');
+        if (!json.notifications.length) {
+          notificationList.innerHTML = `
+            <li class="notification-empty">
+              <div class="item-fallback-art" style="min-height:180px;">
+                <span class="page-chip">Quiet inbox</span>
+                <h3>No notifications yet</h3>
+                <p>When bids, wins, or auction endings happen, they’ll show up here automatically.</p>
+              </div>
+            </li>
+          `;
+        } else {
+          notificationList.innerHTML = json.notifications.map((n) => `
+            <li class="notification-item ${n.is_read === '1' || n.is_read === 1 ? 'read' : 'unread'}" data-id="${n.id}">
+              <div>
+                <div class="review-meta notification-meta">
+                  <strong>${escapeHtml(String(n.type).replace(/_/g, ' '))}</strong>
+                  <span>${String(n.is_read) === '0' ? 'Unread' : 'Read'}</span>
+                </div>
+                <p>${escapeHtml(n.message)}</p>
+                <small>${escapeHtml(n.created_at)}</small>
+              </div>
+              <div class="card-actions">
+                ${n.link ? `<a class="btn" href="${escapeHtml(n.link)}">Open</a>` : ''}
+                ${String(n.is_read) === '0' ? `<button class="btn secondary mark-read" data-id="${n.id}">Mark read</button>` : ''}
+              </div>
+            </li>
+          `).join('');
+        }
       }
     } catch (err) {
       console.error('fetchNotifications error', err);
@@ -213,7 +315,12 @@ document.addEventListener('DOMContentLoaded', () => {
                </li>
              `).join('')}
            </ul>`
-        : '<p>No reviews yet.</p>';
+        : `
+          <div class="item-fallback-art" style="min-height: 180px;">
+            <span class="page-chip">Fresh profile</span>
+            <h3>No reviews yet</h3>
+            <p>This seller hasn’t received feedback yet. Reviews will appear here once buyers start rating their experience.</p>
+          </div>`;
 
       sellerReviewsSummary.innerHTML = reviewsHtml;
 
@@ -277,33 +384,42 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   } catch (e) { console.error(e); }
 
-  if (!bidForm) return;
+  function setNotice(el, message, isError = false) {
+    if (!el) return;
+    el.textContent = message || '';
+    el.classList.toggle('notice-error', !!isError);
+  }
 
-  bidForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const amount = parseFloat(bidAmount.value);
-    if (!amount || amount <= 0) { alert('Enter a valid bid amount'); return; }
-    const current = parseFloat(priceEl.textContent || '0');
-    if (amount <= current) { alert('Your bid must be higher than the current price'); return; }
+  // Only setup bid forms on the item detail page
+  if (bidForm) {
+    bidForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const amount = parseFloat(bidAmount.value);
+      if (!amount || amount <= 0) { setNotice(bidStatus, 'Enter a valid bid amount.', true); return; }
+      const current = parseFloat(priceEl.textContent || '0');
+      if (amount <= current) { setNotice(bidStatus, 'Your bid must be higher than the current price.', true); return; }
 
-    const form = new FormData();
-    form.append('item_id', ITEM_ID);
-    form.append('amount', amount);
-    if (csrfToken) form.append('csrf_token', csrfToken);
+      const form = new FormData();
+      form.append('item_id', ITEM_ID);
+      form.append('amount', amount);
+      if (csrfToken) form.append('csrf_token', csrfToken);
 
-    try {
-      const resp = await fetch('/auction_system/items/place_bid.php', { method: 'POST', body: form });
-      const data = await resp.json();
-      if (data.success) {
-        bidAmount.value = '';
-        fetchCurrent();
-      } else {
-        alert(data.message || 'Could not place bid');
+      try {
+        const resp = await fetch('/auction_system/items/place_bid.php', { method: 'POST', body: form });
+        const data = await resp.json();
+        if (data.success) {
+          bidAmount.value = '';
+          fetchCurrent();
+          setNotice(bidStatus, data.message || 'Bid placed successfully.', false);
+        } else {
+          setNotice(bidStatus, data.message || 'Could not place bid.', true);
+        }
+      } catch (err) {
+        console.error('place bid error', err);
+        setNotice(bidStatus, 'Could not place bid. Please try again.', true);
       }
-    } catch (err) {
-      console.error('place bid error', err);
-    }
-  });
+    });
+  }
 
   // Auto-bid form
   const autobidForm = document.getElementById('autobid-form');
@@ -311,7 +427,7 @@ document.addEventListener('DOMContentLoaded', () => {
     autobidForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const max = parseFloat(document.getElementById('max-bid').value);
-      if (!max || max <= 0) { alert('Enter a valid max bid'); return; }
+      if (!max || max <= 0) { setNotice(document.getElementById('autobid-status'), 'Enter a valid max bid.', true); return; }
       const form = new FormData();
       form.append('item_id', ITEM_ID);
       form.append('max_bid', max);
@@ -319,43 +435,62 @@ document.addEventListener('DOMContentLoaded', () => {
       try {
         const r = await fetch('/auction_system/items/set_autobid.php', { method: 'POST', body: form });
         const j = await r.json();
-        document.getElementById('autobid-status').textContent = j.message || 'Auto-bid set';
-      } catch (err) { console.error(err); }
+        setNotice(document.getElementById('autobid-status'), j.message || 'Auto-bid set', !j.success);
+      } catch (err) {
+        console.error(err);
+        setNotice(document.getElementById('autobid-status'), 'Auto-bid could not be saved.', true);
+      }
     });
   }
 
-  watchlistButtons.forEach((button) => {
-    button.addEventListener('click', async () => {
-      const itemId = button.dataset.itemId;
-      const action = button.dataset.action || 'toggle';
-      const form = new FormData();
-      form.append('item_id', itemId);
-      form.append('action', action);
-      if (csrfToken) form.append('csrf_token', csrfToken);
+  // Shared watchlist toggle handler for both text buttons and heart icons
+  async function toggleWatchlistHandler() {
+    const button = this;
+    const itemId = button.dataset.itemId;
+    const action = button.dataset.action || 'toggle';
+    const form = new FormData();
+    form.append('item_id', itemId);
+    form.append('action', action);
+    if (csrfToken) form.append('csrf_token', csrfToken);
 
-      try {
-        const resp = await fetch('/auction_system/items/toggle_watchlist.php', { method: 'POST', body: form });
-        const data = await resp.json();
-        if (!data.success) {
-          alert(data.message || 'Could not update watchlist');
-          return;
-        }
+    try {
+      const resp = await fetch('/auction_system/items/toggle_watchlist.php', { method: 'POST', body: form, credentials: 'same-origin' });
+      const data = await resp.json();
+      if (!data.success) {
+        console.error('watchlist update failed', data.message || data);
+        return;
+      }
 
-        const watched = !!data.watched;
-        button.dataset.action = watched ? 'remove' : 'add';
+      const watched = !!data.watched;
+      button.dataset.action = watched ? 'remove' : 'add';
+      // Update UI based on button type
+      if (button.classList.contains('card-fav')) {
+        button.setAttribute('aria-pressed', watched ? 'true' : 'false');
+        button.textContent = watched ? '♥' : '♡';
+      } else {
         button.textContent = watched ? 'Remove from Watchlist' : 'Add to Watchlist';
-
-        // If we are on the watchlist page and removing, remove the card from the DOM.
+        // Remove card from DOM on watchlist page when removing
         if (window.location.pathname.includes('/user/watchlist.php') && action === 'remove' && watched === false) {
-          const card = button.closest('.auction-card');
+          const card = button.closest('.watchlist-card') || button.closest('.auction-card');
           if (card) card.remove();
         }
-      } catch (err) {
-        console.error('watchlist toggle error', err);
       }
-    });
+    } catch (err) {
+      console.error('watchlist toggle error', err);
+    }
+  }
+
+  watchlistButtons.forEach((button) => {
+    button.addEventListener('click', toggleWatchlistHandler.bind(button));
   });
 
+  // card favorite heart (grid) handlers
+  const cardFavs = Array.from(document.querySelectorAll('.card-fav'));
+  cardFavs.forEach((btn) => {
+    btn.addEventListener('click', toggleWatchlistHandler.bind(btn));
+  });
+
+  // Only setup notification handlers on the notifications page
   if (notificationList) {
     notificationList.addEventListener('click', async (event) => {
       const button = event.target.closest('.mark-read');
@@ -392,6 +527,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Only setup review form on the item detail page
   if (reviewForm) {
     reviewForm.addEventListener('submit', async (event) => {
       event.preventDefault();

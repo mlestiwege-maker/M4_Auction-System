@@ -1,5 +1,115 @@
 <?php
 
+if (!function_exists('auction_category_fallback_image')) {
+    function auction_category_fallback_image(string $category, string $title = ''): string
+    {
+        $category = strtolower(trim($category));
+        $title = strtolower(trim($title));
+
+        $category = match ($category) {
+            'home and garden' => 'home & garden',
+            'home_garden' => 'home & garden',
+            default => $category,
+        };
+
+        $specificMatches = [
+            'electronics' => [
+                'ipad' => '/auction_system/assets/uploads/originals/electronics/ipad-air-2024.jpeg',
+                'headphones' => '/auction_system/assets/uploads/originals/electronics/headphones.jpeg',
+                'playstation' => '/auction_system/assets/uploads/originals/electronics/ps5-console.jpeg',
+                'ps5' => '/auction_system/assets/uploads/originals/electronics/ps5-console.jpeg',
+            ],
+            'fashion' => [
+                'jacket' => '/auction_system/assets/uploads/originals/fashion/leather-jacket.jpeg',
+                'coat' => '/auction_system/assets/uploads/originals/fashion/leather-jacket.jpeg',
+                'puffer' => '/auction_system/assets/uploads/originals/fashion/leather-jacket.jpeg',
+                'handbag' => '/auction_system/assets/uploads/originals/fashion/designer-handbag.jpeg',
+                'bag' => '/auction_system/assets/uploads/originals/fashion/designer-handbag.jpeg',
+                'purse' => '/auction_system/assets/uploads/originals/fashion/designer-handbag.jpeg',
+            ],
+            'home & garden' => [
+                'lamp' => '/auction_system/assets/uploads/originals/home-garden/desk-lamp.jpeg',
+                'desk lamp' => '/auction_system/assets/uploads/originals/home-garden/desk-lamp.jpeg',
+                'plant' => '/auction_system/assets/uploads/originals/home-garden/indoor-plants.jpeg',
+                'plants' => '/auction_system/assets/uploads/originals/home-garden/indoor-plants.jpeg',
+            ],
+            'collectibles' => [
+                'booster box' => '/auction_system/assets/uploads/originals/collectibles/pokemon-booster-box.jpeg',
+                'pokemon' => '/auction_system/assets/uploads/originals/collectibles/pokemon-booster-box.jpeg',
+                'comic' => '/auction_system/assets/uploads/originals/collectibles/comic-books-bundle.jpeg',
+                'comics' => '/auction_system/assets/uploads/originals/collectibles/comic-books-bundle.jpeg',
+            ],
+            'vehicles' => [
+                'helmet' => '/auction_system/assets/uploads/originals/vehicles/bicycle-helmet.jpeg',
+                'bike' => '/auction_system/assets/uploads/originals/vehicles/bicycle-helmet.jpeg',
+                'phone holder' => '/auction_system/assets/uploads/originals/vehicles/car-phone-holder.jpeg',
+                'holder' => '/auction_system/assets/uploads/originals/vehicles/car-phone-holder.jpeg',
+            ],
+        ];
+
+        $categoryDefaults = [
+            'electronics' => '/auction_system/assets/uploads/originals/electronics/electronics-iphone-orange.jpeg',
+            'fashion' => '/auction_system/assets/uploads/fallbacks/fashion.jpg',
+            'home & garden' => '/auction_system/assets/uploads/fallbacks/home-garden.jpg',
+            'collectibles' => '/auction_system/assets/uploads/fallbacks/collectibles.jpg',
+            'vehicles' => '/auction_system/assets/uploads/fallbacks/vehicles.jpg',
+            'other' => '/auction_system/assets/uploads/fallbacks/other.jpg',
+        ];
+
+        if ($category !== '' && isset($specificMatches[$category])) {
+            foreach ($specificMatches[$category] as $needle => $path) {
+                if (str_contains($title, $needle)) {
+                    return $path;
+                }
+            }
+
+            return $categoryDefaults[$category] ?? $categoryDefaults['other'];
+        }
+
+        foreach ($specificMatches as $matchers) {
+            foreach ($matchers as $needle => $path) {
+                if (str_contains($title, $needle)) {
+                    return $path;
+                }
+            }
+        }
+
+        return $categoryDefaults[$category] ?? $categoryDefaults['other'];
+    }
+}
+
+if (!function_exists('auction_item_image_url')) {
+    function auction_item_image_url(array $row): string
+    {
+        $raw = trim((string) ($row['image_url'] ?? ''));
+
+        if ($raw !== '') {
+            if (preg_match('/^https?:\/\//i', $raw)) {
+                return $raw;
+            }
+
+            $publicPath = $raw;
+            if (str_starts_with($raw, '/auction_system/')) {
+                $localRelativePath = substr($raw, strlen('/auction_system/'));
+                $publicPath = $raw;
+            } elseif (str_starts_with($raw, '/')) {
+                $localRelativePath = ltrim($raw, '/');
+                $publicPath = '/auction_system/' . $localRelativePath;
+            } else {
+                $localRelativePath = ltrim($raw, '/');
+                $publicPath = '/auction_system/' . $localRelativePath;
+            }
+
+            $localPath = __DIR__ . '/../' . $localRelativePath;
+            if (is_file($localPath)) {
+                return $publicPath;
+            }
+        }
+
+        return auction_category_fallback_image((string) ($row['category'] ?? 'other'), (string) ($row['title'] ?? ''));
+    }
+}
+
 if (!function_exists('auction_create_notification')) {
     function auction_create_notification(mysqli $conn, int $user_id, string $type, string $message, ?int $item_id = null): void
     {

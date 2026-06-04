@@ -30,10 +30,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 <?php include(__DIR__ . '/../includes/header.php'); ?>
 
-<main style="max-width: 500px; margin: 3rem auto; padding: 0 1.5rem;">
-    <div class="panel" style="margin-top: 2rem;">
-        <h2 style="text-align: center; margin-bottom: 1.5rem; color: var(--primary);">Welcome Back!</h2>
-        <p style="text-align: center; color: var(--text-light); margin-bottom: 2rem;">Sign in to continue to AuctionHub</p>
+<main class="auth-page">
+    <div class="auth-layout">
+        <section class="auth-hero" aria-label="Login highlights">
+            <div class="auth-kicker">AH AuctionHub</div>
+            <h2>Welcome back.</h2>
+            <p>Sign in to keep bidding, track your watchlist, and stay ahead of the action without missing a beat.</p>
+
+            <div class="auth-points">
+                <div class="auth-point"><span>⚡</span><div><strong>Live auctions</strong><span>Jump back into active bidding instantly.</span></div></div>
+                <div class="auth-point"><span>🔔</span><div><strong>Instant alerts</strong><span>See outbid, win, and auction-end notifications fast.</span></div></div>
+                <div class="auth-point"><span>❤️</span><div><strong>Saved favorites</strong><span>Pick up where you left off in your watchlist.</span></div></div>
+            </div>
+        </section>
+
+        <section class="auth-card">
+            <h2>Welcome Back!</h2>
+            <p>Sign in to continue bidding</p>
 
         <?php if ($errors): ?>
             <div class="alert alert-danger">
@@ -47,19 +60,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <form method="POST" class="contact-form">
             <div class="form-group">
-                <label for="email">Email Address</label>
+                <label for="email">Email</label>
                 <input type="email" id="email" name="email" value="<?= htmlspecialchars($_POST['email'] ?? '') ?>" placeholder="you@example.com" required>
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" placeholder="Enter your password" required>
             </div>
-            <button type="submit" class="btn" style="width: 100%;">Sign In</button>
+            <button type="submit" class="btn">Sign In</button>
         </form>
 
-        <p style="text-align: center; margin-top: 1.5rem; color: var(--text-light);">
-            Don't have an account? <a href="/auction_system/auth/register.php" style="color: var(--primary);">Create One</a>
-        </p>
+            <p class="auth-footer">
+                Don't have an account? <a href="/auction_system/auth/register.php">Create one</a>
+            </p>
+        </section>
     </div>
 </main>
 

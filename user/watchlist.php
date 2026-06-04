@@ -15,8 +15,8 @@ $stmt = $conn->prepare(
     'SELECT i.id, i.title, i.current_price, i.starting_price, i.end_time, i.image_url
      FROM watchlist w
      JOIN items i ON w.item_id = i.id
-     WHERE w.user_id = ?
-     ORDER BY w.created_at DESC'
+    WHERE w.user_id = ?
+     ORDER BY w.added_time DESC'
 );
 $stmt->bind_param('i', $user_id);
 $stmt->execute();
@@ -24,22 +24,27 @@ $res = $stmt->get_result();
 ?>
 
 <main>
-  <section class="hero" style="margin-bottom: 22px;">
-    <div>
-      <h2>Your Watchlist</h2>
-      <p>Keep track of auctions you care about and jump back in before they close.</p>
+  <section class="watchlist-hero">
+    <div class="watchlist-kicker">AH AuctionHub • Watchlist</div>
+    <h2>Your Watchlist</h2>
+    <p>Keep track of auctions you care about and jump back in before they close.</p>
+    <div class="watchlist-summary">
+      <span class="watchlist-pill"><?= $res->num_rows ?> saved items</span>
+      <span class="watchlist-pill">Quick remove enabled</span>
+      <span class="watchlist-pill">Live status updates</span>
     </div>
   </section>
 
   <?php if ($res->num_rows === 0): ?>
     <div class="create-card"><p>No items saved yet. Add items from the auction cards or item page.</p></div>
   <?php else: ?>
-    <section class="auction-grid">
+    <section class="watchlist-grid">
       <?php while ($row = $res->fetch_assoc()): ?>
         <?php $ended = !empty($row['end_time']) && (new DateTime() > new DateTime($row['end_time'])); ?>
-        <article class="auction-card">
-          <?php if (!empty($row['image_url'])): ?>
-            <img src="/auction_system/<?= htmlspecialchars($row['image_url']) ?>" alt="<?= htmlspecialchars($row['title']) ?>">
+        <?php $imageUrl = auction_item_image_url($row); ?>
+        <article class="watchlist-card">
+          <?php if (!empty($imageUrl)): ?>
+            <img src="<?= htmlspecialchars($imageUrl) ?>" alt="<?= htmlspecialchars($row['title']) ?>">
           <?php endif; ?>
           <h3><?= htmlspecialchars($row['title']) ?></h3>
           <p><strong>$<?= number_format($row['current_price'] ?: $row['starting_price'], 2) ?></strong></p>

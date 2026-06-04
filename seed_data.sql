@@ -12,29 +12,29 @@ INSERT INTO users (name, email, password) VALUES
 
 -- Sample Items (Electronics)
 INSERT INTO items (title, description, category, current_price, starting_price, user_id, end_time, image_url, status, winner_id) VALUES
-('Apple iPad Air 2024', 'Brand new iPad Air with M2 chip, 256GB storage, Space Gray color. Perfect for creative work and productivity.', 'Electronics', 450.00, 350.00, 1, DATE_ADD(NOW(), INTERVAL 7 DAY), 'ipad.jpg', 'active', NULL),
-('Sony Wireless Headphones', 'High-quality Sony WH-1000XM5 noise-cancelling headphones. Excellent sound quality and 30-hour battery life.', 'Electronics', 280.00, 200.00, 1, DATE_ADD(NOW(), INTERVAL 5 DAY), 'headphones.jpg', 'active', NULL),
-('PlayStation 5 Console', 'Latest PS5 with 825GB SSD. Includes controller and HDMI cable. Mint condition.', 'Electronics', 500.00, 400.00, 2, DATE_ADD(NOW(), INTERVAL 3 DAY), 'ps5.jpg', 'active', NULL);
+('Apple iPad Air 2024', 'Brand new iPad Air with M2 chip, 256GB storage, Space Gray color. Perfect for creative work and productivity.', 'Electronics', 450.00, 350.00, 1, DATE_ADD(NOW(), INTERVAL 7 DAY), 'assets/uploads/originals/electronics/electronics-primary.jpg', 'active', NULL),
+('Sony Wireless Headphones', 'High-quality Sony WH-1000XM5 noise-cancelling headphones. Excellent sound quality and 30-hour battery life.', 'Electronics', 280.00, 200.00, 1, DATE_ADD(NOW(), INTERVAL 5 DAY), 'assets/uploads/originals/electronics/headphones.jpeg', 'active', NULL),
+('PlayStation 5 Console', 'Latest PS5 with 825GB SSD. Includes controller and HDMI cable. Mint condition.', 'Electronics', 500.00, 400.00, 2, DATE_ADD(NOW(), INTERVAL 3 DAY), 'assets/uploads/originals/electronics/ps5-console.jpeg', 'active', NULL);
 
 -- Sample Items (Fashion)
 INSERT INTO items (title, description, category, current_price, starting_price, user_id, end_time, image_url, status, winner_id) VALUES
-('Vintage Leather Jacket', 'Classic brown vintage leather jacket from the 1980s. Size Medium. Well-preserved condition.', 'Fashion', 85.00, 50.00, 3, DATE_ADD(NOW(), INTERVAL 4 DAY), 'jacket.jpg', 'active', NULL),
-('Designer Handbag', 'Authentic Louis Vuitton Neverfull MM handbag in Damier Ebene print. Perfect for everyday use.', 'Fashion', 750.00, 600.00, 2, DATE_ADD(NOW(), INTERVAL 6 DAY), 'handbag.jpg', 'active', NULL);
+('Vintage Leather Jacket', 'Classic brown vintage leather jacket from the 1980s. Size Medium. Well-preserved condition.', 'Fashion', 85.00, 50.00, 3, DATE_ADD(NOW(), INTERVAL 4 DAY), 'assets/uploads/originals/fashion/leather-jacket.jpeg', 'active', NULL),
+('Designer Handbag', 'Authentic Louis Vuitton Neverfull MM handbag in Damier Ebene print. Perfect for everyday use.', 'Fashion', 750.00, 600.00, 2, DATE_ADD(NOW(), INTERVAL 6 DAY), 'assets/uploads/originals/fashion/designer-handbag.jpeg', 'active', NULL);
 
 -- Sample Items (Home & Garden)
 INSERT INTO items (title, description, category, current_price, starting_price, user_id, end_time, image_url, status, winner_id) VALUES
-('Vintage Desk Lamp', 'Beautiful brass vintage desk lamp from the 1970s. Fully functional with new bulb included.', 'Home & Garden', 45.00, 30.00, 4, DATE_ADD(NOW(), INTERVAL 2 DAY), 'lamp.jpg', 'active', NULL),
-('Indoor Plant Collection', 'Set of 5 healthy indoor plants including monstera, pothos, and snake plants in decorative pots.', 'Home & Garden', 120.00, 80.00, 5, DATE_ADD(NOW(), INTERVAL 8 DAY), 'plants.jpg', 'active', NULL);
+('Vintage Desk Lamp', 'Beautiful brass vintage desk lamp from the 1970s. Fully functional with new bulb included.', 'Home & Garden', 45.00, 30.00, 4, DATE_ADD(NOW(), INTERVAL 2 DAY), 'assets/uploads/originals/home-garden/desk-lamp.jpeg', 'active', NULL),
+('Indoor Plant Collection', 'Set of 5 healthy indoor plants including monstera, pothos, and snake plants in decorative pots.', 'Home & Garden', 120.00, 80.00, 5, DATE_ADD(NOW(), INTERVAL 8 DAY), 'assets/uploads/originals/home-garden/indoor-plants.jpeg', 'active', NULL);
 
 -- Sample Items (Collectibles)
 INSERT INTO items (title, description, category, current_price, starting_price, user_id, end_time, image_url, status, winner_id) VALUES
-('Pokemon Base Set Booster Box', 'Original sealed 1999 Pokemon Base Set booster box. Highly collectible and hard to find in mint condition.', 'Collectibles', 2500.00, 2000.00, 3, DATE_ADD(NOW(), INTERVAL 10 DAY), 'pokemon.jpg', 'active', NULL),
-('Vintage Comic Books Bundle', 'Lot of 15 vintage comic books from 1960s-1980s including Batman, Superman, and Amazing Spider-Man.', 'Collectibles', 350.00, 250.00, 1, DATE_ADD(NOW(), INTERVAL 5 DAY), 'comics.jpg', 'active', NULL);
+('Pokemon Base Set Booster Box', 'Original sealed 1999 Pokemon Base Set booster box. Highly collectible and hard to find in mint condition.', 'Collectibles', 2500.00, 2000.00, 3, DATE_ADD(NOW(), INTERVAL 10 DAY), 'assets/uploads/originals/collectibles/pokemon-booster-box.jpeg', 'active', NULL),
+('Vintage Comic Books Bundle', 'Lot of 15 vintage comic books from 1960s-1980s including Batman, Superman, and Amazing Spider-Man.', 'Collectibles', 350.00, 250.00, 1, DATE_ADD(NOW(), INTERVAL 5 DAY), 'assets/uploads/originals/collectibles/comic-books-bundle.jpeg', 'active', NULL);
 
 -- Sample Items (Vehicles - small items)
 INSERT INTO items (title, description, category, current_price, starting_price, user_id, end_time, image_url, status, winner_id) VALUES
-('Bicycle Helmet - Bell Safety', 'High-quality bicycle helmet by Bell. Orange color, size medium. Excellent protection and comfort.', 'Vehicles', 65.00, 45.00, 4, DATE_ADD(NOW(), INTERVAL 4 DAY), 'helmet.jpg', 'active', NULL),
-('Car Phone Holder', 'Premium magnetic car phone holder for dashboard. Compatible with all smartphones. Easy installation.', 'Vehicles', 22.00, 15.00, 5, DATE_ADD(NOW(), INTERVAL 3 DAY), 'phone-holder.jpg', 'active', NULL);
+('Bicycle Helmet - Bell Safety', 'High-quality bicycle helmet by Bell. Orange color, size medium. Excellent protection and comfort.', 'Vehicles', 65.00, 45.00, 4, DATE_ADD(NOW(), INTERVAL 4 DAY), 'assets/uploads/originals/vehicles/bicycle-helmet.jpeg', 'active', NULL),
+('Car Phone Holder', 'Premium magnetic car phone holder for dashboard. Compatible with all smartphones. Easy installation.', 'Vehicles', 22.00, 15.00, 5, DATE_ADD(NOW(), INTERVAL 3 DAY), 'assets/uploads/originals/vehicles/car-phone-holder.jpeg', 'active', NULL);
 
 -- Sample Bids
 INSERT INTO bids (item_id, user_id, bid_amount, bid_time) VALUES

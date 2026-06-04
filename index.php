@@ -11,11 +11,11 @@ $homeTrending = $conn->query(
 );
 include(__DIR__ . '/includes/header.php');
 ?>
-<main>
+<main id="main" class="home-main">
     <section class="hero">
         <div>
             <h2>🏆 Welcome to AuctionHub</h2>
-            <p>Experience the thrill of live bidding, discover incredible deals, and build trust through our modern marketplace. Real-time updates, smart auto-bidding, and a polished experience.</p>
+            <p>Experience real-time bidding, discover incredible deals, and build trust in a premium marketplace. Smart auto-bidding, live updates, and a polished experience.</p>
             <div class="actions">
                 <a class="btn" href="/auction_system/items/all_items.php">🔍 Browse Auctions</a>
                 <a class="btn secondary" href="/auction_system/items/create_item.php">📤 Sell an Item</a>
@@ -23,7 +23,7 @@ include(__DIR__ . '/includes/header.php');
         </div>
         <div class="metric-card">
             <h3>Why Choose AuctionHub?</h3>
-            <p>We combine cutting-edge technology with a user-centric design to deliver the best auction experience.</p>
+            <p>We combine modern technology with clean design to deliver a marketplace that feels distinct and polished.</p>
             <div class="auction-status">
                 <span class="status-pill active">⚡ Live Bidding</span>
                 <span class="status-pill active">🤖 Auto-Bidding</span>
@@ -59,9 +59,9 @@ include(__DIR__ . '/includes/header.php');
         </article>
     </section>
 
-    <section class="create-card" style="margin-bottom: 2rem;">
-        <h2 style="margin-bottom: .25rem;">🔥 Trending Auctions</h2>
-        <p class="text-muted" style="margin-bottom: 1rem;">Most active auctions based on live bid activity.</p>
+    <section class="create-card trending-section">
+        <h2>🔥 Trending Auctions</h2>
+        <p class="text-muted">Most active auctions based on live bid activity.</p>
         <div class="trending-grid">
             <?php if ($homeTrending): ?>
                 <?php while ($item = $homeTrending->fetch_assoc()): ?>
@@ -79,27 +79,27 @@ include(__DIR__ . '/includes/header.php');
         </div>
     </section>
 
-    <section style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%); color: white; padding: 3rem 2rem; border-radius: 16px; margin: 3rem 0; text-align: center;">
-        <h2 style="margin-bottom: 1rem; color: white;">Ready to Start Bidding?</h2>
-        <p style="margin-bottom: 1.5rem; font-size: 1.05rem; opacity: 0.95;">Join thousands of buyers and sellers on the most trusted auction platform.</p>
-        <div class="actions" style="justify-content: center;">
-            <a class="btn secondary" href="/auction_system/auth/register.php" style="color: var(--primary); border-color: white; background: white;">Create Free Account</a>
-            <a class="btn" href="/auction_system/items/all_items.php" style="background: rgba(255,255,255,0.2); color: white; border: 1px solid white;">Browse Now</a>
+    <section class="cta-hero-section">
+        <h2>Ready to Start Bidding?</h2>
+        <p>Join thousands of buyers and sellers on the most trusted auction platform.</p>
+        <div class="actions">
+            <a class="btn secondary" href="/auction_system/auth/register.php">Create Free Account</a>
+            <a class="btn" href="/auction_system/items/all_items.php">Browse Now</a>
         </div>
     </section>
 
-    <section style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin: 3rem 0; text-align: center;">
-        <div>
-            <h3 style="font-size: 2.5rem; color: var(--primary); margin-bottom: 0.5rem;">1000+</h3>
-            <p style="color: var(--text-light);">Active Auctions</p>
+    <section class="stats-grid" aria-label="Marketplace stats">
+        <div class="stat-card">
+            <h3>1000+</h3>
+            <p>Active Auctions</p>
         </div>
-        <div>
-            <h3 style="font-size: 2.5rem; color: var(--primary); margin-bottom: 0.5rem;">5000+</h3>
-            <p style="color: var(--text-light);">Happy Users</p>
+        <div class="stat-card">
+            <h3>5000+</h3>
+            <p>Happy Users</p>
         </div>
-        <div>
-            <h3 style="font-size: 2.5rem; color: var(--primary); margin-bottom: 0.5rem;">$100K+</h3>
-            <p style="color: var(--text-light);">In Items Sold</p>
+        <div class="stat-card">
+            <h3>$100K+</h3>
+            <p>In Items Sold</p>
         </div>
     </section>
 </main>

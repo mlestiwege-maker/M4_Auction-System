@@ -47,9 +47,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <main>
-  <div class="create-card">
-    <h2>Delete Item</h2>
-    <p>Are you sure you want to permanently delete <strong><?= htmlspecialchars($item['title']) ?></strong>?</p>
+  <section class="hero item-hero" style="margin-bottom: 22px;">
+    <div>
+      <span class="page-chip">Danger zone</span>
+      <h2>Delete Listing</h2>
+      <p>Remove this item from your dashboard permanently. This action cannot be undone.</p>
+    </div>
+    <div class="metric-card">
+      <h3><?= htmlspecialchars($item['title']) ?></h3>
+      <p>Double-check before confirming. Once deleted, the listing is gone for good.</p>
+    </div>
+  </section>
+
+  <div class="create-card item-form-card">
+    <div class="section-head">
+      <div>
+        <span class="page-chip">Confirm removal</span>
+        <h2>Are you sure you want to permanently delete <strong><?= htmlspecialchars($item['title']) ?></strong>?</h2>
+      </div>
+    </div>
+    <p class="form-note-block warning-block">
+      This is permanent. If the item has active bids, consider ending the auction from the item page instead.
+    </p>
     <form method="POST" class="inline-form">
       <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
       <input type="hidden" name="item_id" value="<?= (int) $item_id ?>">

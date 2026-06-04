@@ -1,0 +1,111 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+APP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+DB_NAME="auction_db"
+DB_APP_USER="auctionhub"
+DB_APP_PASS="auction_password"
+
+ASSUME_YES=false
+if [[ "${1:-}" == "--yes" ]]; then
+  ASSUME_YES=true
+fi
+
+start_mariadb() {
+  if command -v systemctl >/dev/null 2>&1; then
+    if systemctl is-active --quiet mariadb; then
+      echo "✅ MariaDB is already running."
+      return
+    fi
+  fi
+
+  echo "▶️  Starting MariaDB service..."
+  if sudo service mariadb start >/dev/null 2>&1 || service mariadb start >/dev/null 2>&1; then
+    echo "✅ MariaDB started."
+  else
+    echo "❌ Could not start MariaDB automatically."
+    echo "   Please run: sudo service mariadb start"
+    exit 1
+  fi
+}
+
+configure_mysql_admin_command() {
+  # Check if we can connect without password (socket auth)
+  if mysql --skip-ssl -u root -e "SELECT 1;" >/dev/null 2>&1; then
+    MYSQL_CMD="mysql --skip-ssl -u root"
+    IS_SUDO=false
+    return
+  fi
+  
+  # Check if we can connect with sudo + no password in sudoers
+  if echo "" | sudo -S mysql --skip-ssl -u root -e "SELECT 1;" >/dev/null 2>&1; then
+    MYSQL_CMD="mysql --skip-ssl -u root"
+    IS_SUDO=true
+    SUDO_PREFIX="sudo -S"
+    echo "ℹ️  Using sudo mysql (socket auth) for admin database operations."
+    return
+  fi
+  
+  # Check if we can connect with the known password (for development)
+  if echo "1011011" | sudo -S mysql --skip-ssl -u root -e "SELECT 1;" >/dev/null 2>&1; then
+    MYSQL_CMD="mysql --skip-ssl -u root"
+    IS_SUDO=true
+    SUDO_PREFIX="echo '1011011' | sudo -S"
+    echo "ℹ️  Using sudo mysql with password for admin database operations."
+    return
+  fi
+
+  echo "❌ Unable to access MySQL admin account using 'mysql -u root' or 'sudo mysql'."
+  echo "   Please verify MariaDB is running and your account has admin privileges."
+  exit 1
+}
+
+confirm_reset() {
+  if [[ "$ASSUME_YES" == true ]]; then
+    return
+  fi
+
+  echo "⚠️  This will DROP and recreate database '$DB_NAME' and reload seed data."
+  read -r -p "Type 'yes' to continue: " reply
+  if [[ "$reply" != "yes" ]]; then
+    echo "ℹ️  Reset cancelled."
+    exit 0
+  fi
+}
+
+reset_database() {
+  echo "🧨 Resetting database '$DB_NAME'..."
+  
+  # We need a function to run mysql commands with proper sudo handling
+  run_mysql() {
+    if [ "$IS_SUDO" = true ]; then
+      # For sudo commands, we need to construct the full command properly
+      if [ "$SUDO_PREFIX" = "echo '1011011' | sudo -S" ]; then
+        # Special case: we need to pipe the password to sudo
+        echo "1011011" | sudo -S $MYSQL_CMD "$@"
+      else
+        # Regular sudo case
+        sudo -S $MYSQL_CMD "$@"
+      fi
+    else
+      # For regular commands
+      $MYSQL_CMD "$@"
+    fi
+  }
+
+  run_mysql -e "DROP DATABASE IF EXISTS ${DB_NAME};"
+  run_mysql -e "CREATE DATABASE ${DB_NAME};"
+  run_mysql -e "CREATE USER IF NOT EXISTS '${DB_APP_USER}'@'localhost' IDENTIFIED BY '${DB_APP_PASS}';"
+  run_mysql -e "CREATE USER IF NOT EXISTS '${DB_APP_USER}'@'127.0.0.1' IDENTIFIED BY '${DB_APP_PASS}';"
+  run_mysql -e "GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_APP_USER}'@'localhost';"
+  run_mysql -e "GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_APP_USER}'@'127.0.0.1';"
+  run_mysql -e "FLUSH PRIVILEGES;"
+  run_mysql "${DB_NAME}" < "$APP_DIR/schema.sql"
+  run_mysql "${DB_NAME}" < "$APP_DIR/seed_data.sql"
+  echo "✅ Database reset complete with fresh sample data."
+}
+
+start_mariadb
+configure_mysql_admin_command
+confirm_reset
+reset_database

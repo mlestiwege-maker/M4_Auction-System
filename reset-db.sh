@@ -5,7 +5,7 @@ APP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DB_NAME="auction_db"
 DB_APP_USER="auctionhub"
 DB_APP_PASS="auction_password"
-MYSQL_CMD=(mysql -u root)
+MYSQL_CMD=(mysql --skip-ssl -u root)
 
 ASSUME_YES=false
 if [[ "${1:-}" == "--yes" ]]; then
@@ -17,7 +17,7 @@ configure_mysql_admin_command() {
     return
   fi
 
-  MYSQL_CMD=(sudo mysql)
+  MYSQL_CMD=(sudo mysql --skip-ssl)
   if "${MYSQL_CMD[@]}" -e "SELECT 1;" >/dev/null 2>&1; then
     echo "ℹ️  Using sudo mysql (socket auth) for admin database operations."
     return

@@ -38,6 +38,7 @@
             color: var(--text);
             background-color: var(--bg);
             transition: background-color 0.3s, color 0.3s;
+            overflow-x: hidden;
         }
 
         header {
@@ -90,15 +91,37 @@
         }
 
         .hero {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            background:
+                radial-gradient(circle at top right, rgba(255,255,255,0.12), transparent 30%),
+                linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             color: white;
-            padding: 3rem 2rem;
+            padding: 3.5rem 2rem;
             text-align: center;
+            box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
         }
 
         .hero h2 {
-            font-size: 2.5rem;
+            font-size: clamp(2rem, 4vw, 3.15rem);
             margin-bottom: 1rem;
+        }
+
+        .hero p {
+            max-width: 760px;
+            margin: 0 auto;
+            color: rgba(255,255,255,0.92);
+            font-size: 1.05rem;
+        }
+
+        .hero-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.45rem 0.9rem;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.14);
+            border: 1px solid rgba(255,255,255,0.18);
+            margin-bottom: 1rem;
+            font-weight: 700;
         }
 
         .container {
@@ -106,9 +129,10 @@
             margin: 0 auto;
             padding: 3rem 2rem;
             background: var(--surface);
-            border-radius: 8px;
+            border-radius: 20px;
             margin-bottom: 2rem;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 16px 36px rgba(15, 23, 42, 0.08);
+            border: 1px solid rgba(148, 163, 184, 0.1);
         }
 
         h3 {
@@ -116,6 +140,32 @@
             font-size: 1.5rem;
             margin-top: 2rem;
             margin-bottom: 1rem;
+        }
+
+        .about-strip {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin: 1.5rem 0 2rem;
+        }
+
+        .about-stat {
+            background: var(--surface-alt);
+            border: 1px solid var(--border);
+            padding: 1rem 1.1rem;
+            border-radius: 16px;
+        }
+
+        .about-stat strong {
+            display: block;
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-bottom: .2rem;
+        }
+
+        .about-stat span {
+            color: var(--text-light);
+            font-size: .95rem;
         }
 
         p {
@@ -134,8 +184,9 @@
         .feature-box {
             background: var(--surface-alt);
             padding: 1.5rem;
-            border-radius: 8px;
-            border-left: 4px solid var(--primary);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
         }
 
         .feature-box strong {
@@ -152,7 +203,7 @@
         .badge {
             display: inline-block;
             padding: 0.5rem 1rem;
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             color: white;
             border-radius: 20px;
             font-size: 0.9rem;
@@ -199,6 +250,10 @@
             text-align: center;
         }
 
+        .cta-row .btn {
+            margin-bottom: .5rem;
+        }
+
         .help-heading {
             margin-top: 3rem;
         }
@@ -225,9 +280,14 @@
         }
 
         @media (max-width: 768px) {
+            .about-strip {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
             nav {
                 flex-direction: column;
                 gap: 1rem;
+                text-align: center;
             }
 
             nav a {
@@ -245,7 +305,7 @@
 <body>
     <header>
         <nav>
-            <h1>🔨 AuctionHub</h1>
+            <h1>AH AuctionHub</h1>
             <div>
                 <a href="index.html">Home</a>
                 <a href="features.html">Features</a>
@@ -258,11 +318,19 @@
     </header>
 
     <section class="hero">
+        <div class="hero-chip">◈ AuctionHub • About</div>
         <h2>About AuctionHub</h2>
         <p>A modern, feature-rich marketplace platform built for real-time auctions</p>
     </section>
 
     <div class="container">
+        <div class="about-strip">
+            <div class="about-stat"><strong>6</strong><span>Buyer-ready features</span></div>
+            <div class="about-stat"><strong>2s</strong><span>Live bid refresh</span></div>
+            <div class="about-stat"><strong>100%</strong><span>Responsive layout</span></div>
+            <div class="about-stat"><strong>24/7</strong><span>Always available</span></div>
+        </div>
+
         <h3>Our Mission</h3>
         <p>AuctionHub is dedicated to creating a transparent, fair, and engaging online marketplace where buyers and sellers can connect, bid confidently, and complete transactions with ease. We combine cutting-edge technology with user-friendly design to deliver an exceptional auction experience.</p>
 

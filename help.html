@@ -36,6 +36,7 @@
             color: var(--text);
             background-color: var(--bg);
             transition: background-color 0.3s, color 0.3s;
+            overflow-x: hidden;
         }
 
         header {
@@ -88,15 +89,37 @@
         }
 
         .hero {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            background:
+                radial-gradient(circle at top right, rgba(255,255,255,0.12), transparent 30%),
+                linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             color: white;
-            padding: 3rem 2rem;
+            padding: 3.5rem 2rem;
             text-align: center;
+            box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
         }
 
         .hero h2 {
-            font-size: 2.5rem;
+            font-size: clamp(2rem, 4vw, 3.15rem);
             margin-bottom: 1rem;
+        }
+
+        .hero p {
+            max-width: 700px;
+            margin: 0 auto;
+            color: rgba(255,255,255,0.92);
+            font-size: 1.05rem;
+        }
+
+        .hero-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.45rem 0.9rem;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.14);
+            border: 1px solid rgba(255,255,255,0.18);
+            margin-bottom: 1rem;
+            font-weight: 700;
         }
 
         .container {
@@ -106,15 +129,21 @@
         }
 
         section {
-            padding: 2rem 0;
+            padding: 2rem;
+            background: var(--surface);
+            border-radius: 18px;
+            border: 1px solid rgba(148, 163, 184, 0.10);
+            box-shadow: 0 14px 30px rgba(15, 23, 42, 0.06);
+            margin: 0 0 1.25rem;
         }
 
         .faq-item {
             background: var(--surface);
             margin-bottom: 1rem;
-            border-radius: 8px;
+            border-radius: 14px;
             overflow: hidden;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 20px rgba(15, 23, 42, 0.05);
+            border: 1px solid var(--border);
         }
 
         .faq-question {
@@ -161,6 +190,33 @@
 
         .help-category {
             margin-bottom: 3rem;
+        }
+
+        .help-summary {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin: 1.25rem 0 2rem;
+        }
+
+        .help-stat {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .help-stat strong {
+            display: block;
+            color: var(--primary);
+            font-size: 1.4rem;
+            margin-bottom: .2rem;
+        }
+
+        .help-stat span {
+            color: var(--text-light);
+            font-size: .95rem;
         }
 
         .help-category h3 {
@@ -211,9 +267,14 @@
         }
 
         @media (max-width: 768px) {
+            .help-summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
             nav {
                 flex-direction: column;
                 gap: 1rem;
+                text-align: center;
             }
 
             nav a {
@@ -230,7 +291,7 @@
 <body>
     <header>
         <nav>
-            <h1>🔨 AuctionHub</h1>
+            <h1>AH AuctionHub</h1>
             <div>
                 <a href="index.html">Home</a>
                 <a href="features.html">Features</a>
@@ -243,11 +304,19 @@
     </header>
 
     <section class="hero">
+        <div class="hero-chip">◈ AuctionHub • Help Center</div>
         <h2>Help & FAQ</h2>
         <p>Find answers to common questions about AuctionHub</p>
     </section>
 
     <div class="container">
+        <section class="help-summary" aria-label="Support summary">
+            <div class="help-stat"><strong>Quick</strong><span>Start, bid, and sell</span></div>
+            <div class="help-stat"><strong>Smart</strong><span>Search and watchlists</span></div>
+            <div class="help-stat"><strong>Secure</strong><span>Protected transactions</span></div>
+            <div class="help-stat"><strong>24/7</strong><span>Platform support</span></div>
+        </section>
+
         <section class="help-category">
             <h3>Getting Started</h3>
 
