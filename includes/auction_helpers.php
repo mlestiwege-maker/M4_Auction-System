@@ -1,5 +1,18 @@
 <?php
 
+if (!function_exists('auction_public_image_exists')) {
+    function auction_public_image_exists(string $publicPath): bool
+    {
+        $rel = $publicPath;
+        if (str_starts_with($rel, '/auction_system/')) {
+            $rel = substr($rel, strlen('/auction_system/'));
+        } else {
+            $rel = ltrim($rel, '/');
+        }
+        return is_file(__DIR__ . '/../' . $rel);
+    }
+}
+
 if (!function_exists('auction_category_fallback_image')) {
     function auction_category_fallback_image(string $category, string $title = ''): string
     {
@@ -48,33 +61,46 @@ if (!function_exists('auction_category_fallback_image')) {
         ];
 
         $categoryDefaults = [
-            'electronics' => '/auction_system/assets/uploads/originals/electronics/electronics-iphone-orange.jpeg',
-            'fashion' => '/auction_system/assets/uploads/fallbacks/fashion.jpg',
-            'home & garden' => '/auction_system/assets/uploads/fallbacks/home-garden.jpg',
-            'collectibles' => '/auction_system/assets/uploads/fallbacks/collectibles.jpg',
-            'vehicles' => '/auction_system/assets/uploads/fallbacks/vehicles.jpg',
-            'other' => '/auction_system/assets/uploads/fallbacks/other.jpg',
+            'electronics' => '/auction_system/assets/uploads/fallbacks/electronics.svg',
+            'fashion' => '/auction_system/assets/uploads/fallbacks/fashion.svg',
+            'home & garden' => '/auction_system/assets/uploads/fallbacks/home-garden.svg',
+            'collectibles' => '/auction_system/assets/uploads/fallbacks/collectibles.svg',
+            'vehicles' => '/auction_system/assets/uploads/fallbacks/vehicles.svg',
+            'other' => '/auction_system/assets/uploads/fallbacks/other.svg',
         ];
 
+        $guaranteed = '/auction_system/assets/uploads/fallbacks/other.svg';
+
+        // Build an ordered list of candidate images, best match first.
+        $candidates = [];
         if ($category !== '' && isset($specificMatches[$category])) {
             foreach ($specificMatches[$category] as $needle => $path) {
                 if (str_contains($title, $needle)) {
-                    return $path;
+                    $candidates[] = $path;
                 }
             }
-
-            return $categoryDefaults[$category] ?? $categoryDefaults['other'];
-        }
-
-        foreach ($specificMatches as $matchers) {
-            foreach ($matchers as $needle => $path) {
-                if (str_contains($title, $needle)) {
-                    return $path;
+            $candidates[] = $categoryDefaults[$category] ?? $guaranteed;
+        } else {
+            foreach ($specificMatches as $matchers) {
+                foreach ($matchers as $needle => $path) {
+                    if (str_contains($title, $needle)) {
+                        $candidates[] = $path;
+                    }
                 }
+            }
+            $candidates[] = $categoryDefaults[$category] ?? $guaranteed;
+        }
+        $candidates[] = $guaranteed;
+
+        // Return the first candidate that actually exists on disk so the UI
+        // never renders a broken image icon.
+        foreach ($candidates as $candidate) {
+            if (auction_public_image_exists($candidate)) {
+                return $candidate;
             }
         }
 
-        return $categoryDefaults[$category] ?? $categoryDefaults['other'];
+        return $guaranteed;
     }
 }
 

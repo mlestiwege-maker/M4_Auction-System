@@ -10,6 +10,7 @@ $homeTrending = $conn->query(
      LIMIT 3"
 );
 include(__DIR__ . '/includes/header.php');
+require_once __DIR__ . '/includes/auction_helpers.php';
 ?>
 <main id="main" class="home-main">
     <section class="hero">
@@ -66,6 +67,7 @@ include(__DIR__ . '/includes/header.php');
             <?php if ($homeTrending): ?>
                 <?php while ($item = $homeTrending->fetch_assoc()): ?>
                     <article class="trending-card">
+                        <img class="trending-thumb" src="<?= htmlspecialchars(auction_item_image_url($item)) ?>" alt="<?= htmlspecialchars($item['title']) ?>" loading="lazy">
                         <h3><?= htmlspecialchars($item['title']) ?></h3>
                         <div class="trending-meta">
                             <span><?= htmlspecialchars($item['category'] ?: 'General') ?></span>

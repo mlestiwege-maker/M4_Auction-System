@@ -1,32 +1,72 @@
 /* ===== MODERN AUCTIONHUB STYLESHEET ===== */
 
 :root {
-    --primary: #0F172A;
-    --primary-dark: #0C0A16;
-    --primary-light: #1E293B;
-    --secondary: #1E293B;
-    --accent: #F59E0B;
-    --success: #10B981;
-    --danger: #EF4444;
-    --warning: #FBBF24;
-    --bg: #F8FAFC;
+    /* Brand palette */
+    --primary: #4f46e5;
+    --primary-dark: #4338ca;
+    --primary-light: #6366f1;
+    --secondary: #0ea5e9;
+    --accent: #f59e0b;
+    --accent-dark: #d97706;
+    --success: #10b981;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+
+    /* Surfaces & text */
+    --bg: #eef1f8;
+    --surface: #ffffff;
+    --surface-alt: #f5f7fc;
+    --text: #0f172a;
+    --text-light: #64748b;
+    --border: #e5e9f2;
+
+    /* Shape & motion */
+    --radius: 14px;
+    --radius-sm: 10px;
+    --radius-lg: 22px;
+    --transition: all .22s cubic-bezier(.2,.7,.3,1);
+
+    /* Elevation */
+    --shadow-sm: 0 1px 2px rgba(15,23,42,.06), 0 1px 3px rgba(15,23,42,.07);
+    --shadow-md: 0 8px 22px rgba(15,23,42,.09), 0 2px 6px rgba(15,23,42,.06);
+    --shadow-lg: 0 26px 50px rgba(15,23,42,.16);
 }
 
     body[data-theme='dark'] {
-        --bg: #0F172A;
-        --surface: #111827;
-        --surface-alt: #1f2937;
-        --text: #e5e7eb;
-        --text-light: #9ca3af;
-        --border: #334155;
-        --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.35);
-        --shadow-md: 0 6px 16px rgba(0, 0, 0, 0.4);
-        --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.45);
-        --primary: #3B82F6;
-        --primary-dark: #2563EB;
-        --primary-light: #60A5FA;
-        --secondary: #1E293B;
-        --accent: #FBBF24;
+        --bg: #0b1120;
+        --surface: #141d33;
+        --surface-alt: #1c2740;
+        --text: #e8edf6;
+        --text-light: #9fb0c9;
+        --border: #2a3650;
+        --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
+        --shadow-md: 0 8px 22px rgba(0, 0, 0, 0.45);
+        --shadow-lg: 0 26px 50px rgba(0, 0, 0, 0.55);
+        --primary: #818cf8;
+        --primary-dark: #6366f1;
+        --primary-light: #a5b4fc;
+        --secondary: #38bdf8;
+        --accent: #fbbf24;
+    }
+
+    /* Card surfaces that must follow the active theme */
+    body[data-theme='dark'] .hero,
+    body[data-theme='dark'] .metric-card,
+    body[data-theme='dark'] .receipt-card,
+    body[data-theme='dark'] .invoice-card,
+    body[data-theme='dark'] .quick-edit-modal-content {
+        background: linear-gradient(180deg, var(--surface), var(--surface-alt)) !important;
+        color: var(--text);
+    }
+
+    body[data-theme='dark'] .method-card,
+    body[data-theme='dark'] .option-card,
+    body[data-theme='dark'] .image-preview,
+    body[data-theme='dark'] .upload-preview,
+    body[data-theme='dark'] .media-preview,
+    body[data-theme='dark'] .btn.secondary {
+        background: var(--surface-alt) !important;
+        color: var(--text);
     }
     * {
         margin: 0;
@@ -61,9 +101,10 @@
     body {
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         background:
-            radial-gradient(circle at top left, rgba(20, 184, 166, 0.14), transparent 28%),
-            radial-gradient(circle at top right, rgba(245, 158, 11, 0.10), transparent 24%),
-            linear-gradient(180deg, #f8fbff 0%, var(--bg) 42%, var(--bg) 100%);
+            radial-gradient(1200px 600px at 100% -10%, rgba(99, 102, 241, 0.12), transparent 60%),
+            radial-gradient(1000px 520px at -10% 0%, rgba(14, 165, 233, 0.10), transparent 55%),
+            var(--bg);
+        background-attachment: fixed;
         color: var(--text);
         line-height: 1.6;
         min-height: 100vh;
@@ -71,7 +112,7 @@
 
     /* ===== HEADER & NAVIGATION ===== */
     .main-header {
-        background: linear-gradient(135deg, rgba(15, 23, 42, 0.96) 0%, rgba(30, 41, 59, 0.96) 55%, rgba(245, 158, 11, 0.9) 120%);
+        background: linear-gradient(135deg, #1e1b4b 0%, #312e81 45%, #4338ca 100%);
         -webkit-backdrop-filter: blur(12px);
         backdrop-filter: blur(12px);
         color: white;
@@ -336,15 +377,28 @@
     .alert.success,
     .notice.success,
     .flash.success,
-    .message.success { border-color: rgba(22,163,74,0.3); background: rgba(220, 252, 231, 0.75); }
+    .message.success { border-color: rgba(22,163,74,0.3); background: rgba(220, 252, 231, 0.75); color: #166534; }
     .alert.error,
     .notice.error,
     .flash.error,
-    .message.error { border-color: rgba(220,38,38,0.3); background: rgba(254, 226, 226, 0.82); }
+    .message.error { border-color: rgba(220,38,38,0.3); background: rgba(254, 226, 226, 0.82); color: #991b1b; }
     .alert.warning,
     .notice.warning,
     .flash.warning,
-    .message.warning { border-color: rgba(217,119,6,0.3); background: rgba(254, 243, 199, 0.82); }
+    .message.warning { border-color: rgba(217,119,6,0.3); background: rgba(254, 243, 199, 0.82); color: #92400e; }
+
+    body[data-theme='dark'] .alert.success,
+    body[data-theme='dark'] .notice.success,
+    body[data-theme='dark'] .flash.success,
+    body[data-theme='dark'] .message.success { background: rgba(16,185,129,0.16); color: #6ee7b7; }
+    body[data-theme='dark'] .alert.error,
+    body[data-theme='dark'] .notice.error,
+    body[data-theme='dark'] .flash.error,
+    body[data-theme='dark'] .message.error { background: rgba(239,68,68,0.18); color: #fca5a5; }
+    body[data-theme='dark'] .alert.warning,
+    body[data-theme='dark'] .notice.warning,
+    body[data-theme='dark'] .flash.warning,
+    body[data-theme='dark'] .message.warning { background: rgba(245,158,11,0.18); color: #fcd34d; }
 
     table {
         width: 100%;
@@ -549,7 +603,7 @@
         padding: 1rem;
         border-radius: 12px;
         border: 1px solid var(--border);
-        background: rgba(255,255,255,0.82);
+        background: var(--surface-alt);
         transition: var(--transition);
     }
 
@@ -563,7 +617,7 @@
     .invoice-card {
         padding: 1.5rem;
         border-radius: var(--radius-lg);
-        background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(255,255,255,0.84));
+        background: linear-gradient(180deg, var(--surface), var(--surface-alt));
         border: 1px solid var(--border);
         box-shadow: var(--shadow-md);
     }
@@ -599,7 +653,7 @@
         border: 1px dashed rgba(15,118,110,0.35);
         border-radius: var(--radius-lg);
         padding: 1rem;
-        background: rgba(255,255,255,0.75);
+        background: var(--surface-alt);
     }
 
     .image-thumb,
@@ -805,7 +859,7 @@
         z-index: 3010;
         width: 100%;
         max-width: 980px;
-        background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(255,255,255,0.92));
+        background: linear-gradient(180deg, var(--surface), var(--surface-alt));
         border-radius: 14px;
         box-shadow: var(--shadow-lg);
         padding: 1rem;
@@ -840,7 +894,7 @@
         display:block; 
         border-radius:8px; 
         border:1px solid var(--border); 
-        background:#fff;
+        background:var(--surface);
         max-width: 100%;
     }
     .quick-edit-canvas-controls {
@@ -1003,8 +1057,9 @@
         border-radius: 24px;
         border: 1px solid var(--border);
         background:
-            linear-gradient(135deg, rgba(15, 23, 42, 0.08), rgba(30, 41, 59, 0.06)),
-            linear-gradient(180deg, rgba(255,255,255,0.92), rgba(255,255,255,0.82));
+            radial-gradient(800px 360px at 110% -30%, rgba(99,102,241,0.16), transparent 60%),
+            radial-gradient(600px 300px at -10% 120%, rgba(14,165,233,0.12), transparent 60%),
+            linear-gradient(180deg, var(--surface), var(--surface-alt));
         box-shadow: var(--shadow-md);
         -webkit-backdrop-filter: blur(8px);
         backdrop-filter: blur(8px);
@@ -1057,7 +1112,7 @@
     }
 
     .btn.secondary {
-        background: rgba(255,255,255,0.92);
+        background: var(--surface);
         color: var(--primary-dark);
         border: 1px solid var(--border);
         box-shadow: var(--shadow-sm);
@@ -1442,7 +1497,7 @@
     }
 
     .metric-card {
-        background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(255,255,255,0.8));
+        background: linear-gradient(180deg, var(--surface), var(--surface-alt));
         padding: 2rem;
         border-radius: var(--radius-lg);
         box-shadow: var(--shadow-md);
@@ -1504,8 +1559,9 @@
         border-radius: var(--radius-lg);
         border: 1px solid var(--border);
         background:
-            linear-gradient(135deg, rgba(15, 23, 42, 0.08), rgba(30, 41, 59, 0.06)),
-            linear-gradient(180deg, rgba(255,255,255,0.92), rgba(255,255,255,0.82));
+            radial-gradient(800px 360px at 110% -30%, rgba(99,102,241,0.16), transparent 60%),
+            radial-gradient(600px 300px at -10% 120%, rgba(14,165,233,0.12), transparent 60%),
+            linear-gradient(180deg, var(--surface), var(--surface-alt));
         box-shadow: var(--shadow-md);
         -webkit-backdrop-filter: blur(8px);
         backdrop-filter: blur(8px);
@@ -1558,7 +1614,7 @@
 }
 
 .btn.secondary {
-    background: rgba(255,255,255,0.92);
+    background: var(--surface);
     color: var(--primary-dark);
     border: 1px solid var(--border);
     box-shadow: var(--shadow-sm);
@@ -1570,7 +1626,7 @@
 }
 
 .metric-card {
-    background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(255,255,255,0.8));
+    background: linear-gradient(180deg, var(--surface), var(--surface-alt));
     padding: 2rem;
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-md);
@@ -1977,12 +2033,29 @@
 .countdown-badge {
     display: inline-flex;
     align-items: center;
-    padding: .2rem .55rem;
+    gap: .25rem;
+    padding: .22rem .6rem;
     border-radius: 999px;
     font-size: .78rem;
     font-weight: 700;
+    background: rgba(16, 185, 129, 0.16);
+    color: #047857;
+}
+
+body[data-theme='dark'] .countdown-badge {
+    background: rgba(16, 185, 129, 0.22);
+    color: #6ee7b7;
+}
+
+.countdown-badge.is-urgent {
     background: #fee2e2;
     color: #991b1b;
+    animation: pulseUrgent 1.6s infinite;
+}
+
+body[data-theme='dark'] .countdown-badge.is-urgent {
+    background: rgba(239, 68, 68, 0.22);
+    color: #fca5a5;
 }
 
 .live-feed {

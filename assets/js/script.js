@@ -141,16 +141,22 @@ document.addEventListener('DOMContentLoaded', () => {
       const diff = endTime - new Date();
       if (diff <= 0) {
         el.textContent = 'Ended';
+        el.classList.remove('is-urgent');
         if (card) card.classList.remove('ending-soon');
         return;
       }
       const totalMinutes = Math.floor(diff / 60000);
-      const hours = Math.floor(totalMinutes / 60);
+      const days = Math.floor(totalMinutes / 1440);
+      const hours = Math.floor((totalMinutes % 1440) / 60);
       const minutes = totalMinutes % 60;
-      if (diff <= 3600000 && card) {
-        card.classList.add('ending-soon');
-      }
-      el.textContent = hours > 0 ? `${hours}h ${minutes}m left` : `${minutes}m left`;
+      const urgent = diff <= 3600000;
+      el.classList.toggle('is-urgent', urgent);
+      if (card) card.classList.toggle('ending-soon', urgent);
+      let label;
+      if (days > 0) label = `${days}d ${hours}h left`;
+      else if (hours > 0) label = `${hours}h ${minutes}m left`;
+      else label = `${minutes}m left`;
+      el.textContent = `⏳ ${label}`;
     });
   }
 

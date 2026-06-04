@@ -263,8 +263,6 @@ if ($trendingStmt && $category !== '' && $category !== 'all') {
         <?php while ($t = $trending->fetch_assoc()): ?>
           <article class="trending-card">
             <img class="trending-thumb" src="<?= htmlspecialchars(auction_item_image_url($t)) ?>" alt="<?= htmlspecialchars($t['title']) ?>" loading="lazy">
-            <div style="color:red; font-size:0.8rem;">DEBUG</div>
-            <?php // Debug: echo htmlspecialchars(auction_item_image_url($t)); ?>
             <h4><?= htmlspecialchars($t['title']) ?></h4>
             <div class="trending-meta">
               <span><?= htmlspecialchars($t['category'] ?: 'General') ?></span>
@@ -321,10 +319,10 @@ if ($trendingStmt && $category !== '' && $category !== 'all') {
             <div class="auction-status">
               <span class="status-pill <?= $ended ? 'ended' : 'active' ?>"><?= $ended ? 'Ended' : 'Active' ?></span>
               <?php if (!empty($row['end_time'])): ?>
-                <span><?= htmlspecialchars($row['end_time']) ?></span>
+                <span class="muted-tight">🗓️ Ends <?= htmlspecialchars(date('M j, g:i A', strtotime($row['end_time']))) ?></span>
                 <?php if (!$ended): ?>
-                  <span class="countdown-badge live-countdown" data-end-time="<?= htmlspecialchars($row['end_time']) ?>">
-                    <?= $isEndingSoon ? 'Ending soon' : 'Live' ?>
+                  <span class="countdown-badge live-countdown<?= $isEndingSoon ? ' is-urgent' : '' ?>" data-end-time="<?= htmlspecialchars($row['end_time']) ?>">
+                    ⏳ <?= $isEndingSoon ? 'Ending soon' : 'Live' ?>
                   </span>
                 <?php endif; ?>
               <?php endif; ?>
