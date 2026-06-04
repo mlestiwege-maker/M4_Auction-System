@@ -70,7 +70,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $errors[] = 'Unsupported image type.';
             } else {
                 $ext = strtolower(pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION));
-        }
                 $categorySlug = strtolower(trim(preg_replace('/[^a-z0-9]+/i', '-', $category), '-'));
                 $fn = $categorySlug . '-' . bin2hex(random_bytes(6)) . '.' . $ext;
                 $destDir = __DIR__ . '/../assets/uploads/originals/' . $categorySlug;
@@ -83,6 +82,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 } else {
                     $image_path = 'assets/uploads/originals/' . $categorySlug . '/' . $fn;
                 }
+            }
+        }
     }
 
     if (empty($errors)) {
